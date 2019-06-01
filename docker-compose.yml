@@ -6,6 +6,19 @@ services:
       context: .
     ports:
       - 3000:3000
+    entrypoint: npm run serve
+    volumes:
+      - ./:/app
+
+  worker:
+    build:
+      context: .
+    entrypoint: npm run process
+    volumes:
+      - ./:/app
+
+  redis:
+    image: redis
 
   openeats-api:
     image: openeats/openeats-api
