@@ -1,0 +1,29 @@
+{
+  "name": "sahtivahti",
+  "version": "0.0.1",
+  "description": "Brewing manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tarvainen/sahtivahti.git"
+  },
+  "keywords": [
+    "sahtivahti"
+  ],
+  "author": "Atte Tarvainen <tarvainen.atte@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tarvainen/sahtivahti/issues"
+  },
+  "homepage": "https://github.com/tarvainen/sahtivahti#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
+}

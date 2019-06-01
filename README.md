@@ -10,7 +10,13 @@ For development, use following command
 docker-compose up -d
 ```
 
+After a while the API should be available at http://localhost:3000
+
 ## Components
+
+### API
+
+We'll use NodeJS + Express for the everything combining API
 
 ### Recipe management
 
