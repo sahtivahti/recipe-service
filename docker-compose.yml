@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  openeats-api:
+    image: openeats/openeats-api
+    restart: on-failure
+    command: /startup/prod-entrypoint.sh
+    env_file:
+      - ./docker/.env.openeats
+    depends_on:
+      - openeats-db
+    ports:
+      - 8001:8000
+  openeats-db:
+    image: mariadb
+    env_file:
+      - ./docker/.env.openeats
+    volumes:
+      - openeats-db:/var/lib/mysql
+volumes:
+  openeats-db:
