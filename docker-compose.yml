@@ -1,6 +1,12 @@
 version: '3.5'
 
 services:
+  api:
+    build:
+      context: .
+    ports:
+      - 3000:3000
+
   openeats-api:
     image: openeats/openeats-api
     restart: on-failure
@@ -11,6 +17,7 @@ services:
       - openeats-db
     ports:
       - 8001:8000
+
   openeats-db:
     image: mariadb
     env_file:
