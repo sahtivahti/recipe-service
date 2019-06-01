@@ -2,6 +2,14 @@
 
 One day this should be an app for mastering my homebrews. At the same this is a experimental project where everything is meant to be implemented just combining existing services and APIs.
 
+## Installation
+
+For development, use following command
+
+```
+docker-compose up -d
+```
+
 ## Components
 
 ### Recipe management
