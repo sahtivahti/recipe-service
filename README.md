@@ -45,3 +45,15 @@ TODO
 ### Reports and exports
 
 TODO
+
+## Configuration
+
+Following environment variables may be used to configure application
+
+### PORT
+
+Port where the actual REST will run. Defaults to `3000`.
+
+### REDIS_HOST
+
+Redis service host. Defaults to `redis`.

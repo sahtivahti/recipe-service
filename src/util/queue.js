@@ -2,7 +2,7 @@ const kue = require('kue')
 
 const queue = kue.createQueue({
   redis: {
-    host: 'redis'
+    host: process.env.REDIS_HOST || 'redis'
   }
 })
 
