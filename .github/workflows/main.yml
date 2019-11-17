@@ -29,5 +29,3 @@ jobs:
         run: while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8080/health)" != "200" ]]; do sleep 5; done
       - name: Run behat tests
         run: docker exec recipe-service_app_1 php /app/vendor/bin/behat
-      #- name: Run test
-      #  run: docker run --rm --entrypoint=/usr/local/bin/php sahtivahti/recipe-service:test /app/bin/phpunit
