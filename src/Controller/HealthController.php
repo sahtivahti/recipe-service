@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HealthController
 {
     /**
-     * @Route(path="/")
+     * @Route(path="")
      *
      * @return Response
      */

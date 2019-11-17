@@ -21,7 +21,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Setup container
-        run: docker build -t sahtivahti/recipe-service:test .
-      - name: Run test
-        run: docker run --rm --entrypoint=/usr/local/bin/php sahtivahti/recipe-service:test /app/bin/phpunit
+      - name: Setup stack
+        run: docker-compose up -d
+      - name: Wait until healthy
+        uses: maddox/actions/wait-for-200@master
+        env:
+          URL: http://localhost:8080/health
+      - name: Run behat tests
+        run: docker exec recipe-service_app_1 php /app/vendor/bin/behat
+      #- name: Run test
+      #  run: docker run --rm --entrypoint=/usr/local/bin/php sahtivahti/recipe-service:test /app/bin/phpunit
