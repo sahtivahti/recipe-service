@@ -24,4 +24,4 @@ jobs:
       - name: Setup container
         run: docker build -t sahtivahti/recipe-service:test .
       - name: Run test
-        run: docker run --rm --entrypoint=/bin/sh sahtivahti/recipe-service:test php /app/bin/phpunit
+        run: docker run --rm --entrypoint=/usr/local/bin/php sahtivahti/recipe-service:test /app/bin/phpunit
