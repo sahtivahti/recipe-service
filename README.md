@@ -8,6 +8,8 @@ Recipe related management for Sahtivahti application
 
 * [Table of Contents](#table-of-contents)
 * [Installation](#installation)
+* [Database](#database)
+  * [Running migrations](#running-migrations)
 * [License](#license)
 
 ## Requirements
@@ -19,6 +21,18 @@ Recipe related management for Sahtivahti application
 
 ```
 docker-compose up -d
+```
+
+## Database
+
+Application uses `mysql` database as it's primary storage.
+
+### Running migrations
+
+Database schema migrations is run automatically when application instance starts (see [docker-entrypoint.sh](./docker-entrypoint.sh)). During development migrations may be run using the following command
+
+```
+./bin/console doctrine:migrations:migrate
 ```
 
 ## License
