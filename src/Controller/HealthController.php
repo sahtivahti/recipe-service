@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,10 +19,10 @@ class HealthController
     /**
      * @Route(path="/")
      *
-     * @return JsonResponse
+     * @return Response
      */
-    public function actionHealth(): JsonResponse
+    public function actionHealth(): Response
     {
-        return new JsonResponse('OK');
+        return new Response('OK');
     }
 }

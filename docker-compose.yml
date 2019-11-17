@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+    command: 'php-fpm'
     volumes:
       - ./:/app
       - /var
@@ -23,4 +24,3 @@ services:
       MYSQL_DATABASE: recipe-service
       MYSQL_USER: sahtivahti
       MYSQL_PASSWORD: sahtivahti
-
