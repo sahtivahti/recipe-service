@@ -11,7 +11,7 @@ class HealthControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/health/');
+        $client->request('GET', '/health');
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertSame('OK', $client->getResponse()->getContent());

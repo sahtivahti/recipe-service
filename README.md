@@ -43,8 +43,16 @@ Tests are located under the [tests](./tests) directory.
 
 ### Running unit tests
 
+**PHPUnit**
+
 ```
 ./bin/phpunit
+```
+
+**Behat**
+
+```
+./vendor/bin/behat
 ```
 
 ## License

@@ -17,4 +17,6 @@ COPY . .
 
 RUN composer run auto-scripts
 
+RUN chmod +x /app/bin/console /app/bin/phpunit
+
 ENTRYPOINT ["./docker-entrypoint.sh"]
