@@ -25,5 +25,3 @@ services:
       MYSQL_DATABASE: recipe-service
       MYSQL_USER: sahtivahti
       MYSQL_PASSWORD: sahtivahti
-    ports:
-      - 3306:3306
