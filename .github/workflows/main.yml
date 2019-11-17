@@ -15,3 +15,13 @@ jobs:
           name: sahtivahti/recipe-service
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup container
+        run: docker build -t sahtivahti/recipe-service:test .
+      - name: Run test
+        run: docker run --rm --entrypoint=/usr/local/bin/php sahtivahti/recipe-service:test /app/bin/phpunit
