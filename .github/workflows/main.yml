@@ -23,6 +23,8 @@ jobs:
         uses: actions/checkout@master
       - name: Setup stack
         run: docker-compose up -d
+      - name: Docker logs
+        run: docker-compose logs -f
       - name: Wait until healthy
         run: while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8080/health)" != "200" ]]; do sleep 5; done
       - name: Run behat tests
