@@ -23,7 +23,5 @@ jobs:
         uses: actions/checkout@master
       - name: Setup stack
         run: docker-compose up -d
-      - name: Sleep
-        run: sleep 10
       - name: Test
         run: docker-compose exec app php /app/bin/phpunit
