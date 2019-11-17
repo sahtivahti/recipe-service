@@ -48,11 +48,9 @@ class RecipeController
     }
 
     /**
-     * @Route(path="/", methods={"POST"})
+     * @Route(path="", methods={"POST"})
      *
      * @param Request $request
-     * @param NormalizerInterface $normalizer
-     *
      * @return JsonResponse
      *
      * @throws ExceptionInterface
@@ -70,7 +68,7 @@ class RecipeController
     }
 
     /**
-     * @Route(path="/", methods={"GET"})
+     * @Route(path="", methods={"GET"})
      *
      * @return JsonResponse
      *
@@ -81,5 +79,41 @@ class RecipeController
         $recipes = $this->recipeRepository->findAll();
 
         return new JsonResponse($this->normalizer->normalize($recipes, 'array'));
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"GET"})
+     *
+     * @param Recipe $recipe
+     *
+     * @return JsonResponse
+     *
+     * @throws ExceptionInterface
+     */
+    public function getRecipe(Recipe $recipe): JsonResponse
+    {
+        return new JsonResponse($this->normalizer->normalize($recipe, 'array'));
+    }
+
+    /**
+     * @Route(path="/{id}", methods={"PUT"})
+     *
+     * @param Recipe $recipe
+     * @param Request $request
+     *
+     * @return JsonResponse
+     *
+     * @throws ExceptionInterface
+     */
+    public function updateRecipe(Recipe $recipe, Request $request): JsonResponse
+    {
+        $recipe
+            ->setName($request->get('name', $recipe->getName()))
+            ->setAuthor($request->get('author', $recipe->getAuthor()));
+
+        $this->entityManager->persist($recipe);
+        $this->entityManager->flush();
+
+        return new JsonResponse($this->normalizer->normalize($recipe, 'array'));
     }
 }
