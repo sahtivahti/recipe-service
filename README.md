@@ -10,6 +10,8 @@ Recipe related management for Sahtivahti application
 * [Installation](#installation)
 * [Database](#database)
   * [Running migrations](#running-migrations)
+* [Tests](#tests)
+  * [Running unit tests](#running-unit-tests)
 * [License](#license)
 
 ## Requirements
@@ -33,6 +35,16 @@ Database schema migrations is run automatically when application instance starts
 
 ```
 ./bin/console doctrine:migrations:migrate
+```
+
+## Tests
+
+Tests are located under the [tests](./tests) directory.
+
+### Running unit tests
+
+```
+./bin/phpunit
 ```
 
 ## License
