@@ -16,3 +16,5 @@ RUN composer install --no-scripts
 COPY . .
 
 RUN composer run auto-scripts
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
