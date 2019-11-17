@@ -21,9 +21,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Setup stack
-        run: docker-compose up -d
-      - name: Sleep
-        run: sleep 15
-      - name: Test
-        run: docker exec recipe-service_app_1 php /app/bin/phpunit
+      - name: Setup container
+        run: docker build -t sahtivahti/recipe-service:test .
+      - name: Run test
+        run: docker run --rm --entrypoint=/bin/sh sahtivahti/recipe-service:test php /app/bin/phpunit
