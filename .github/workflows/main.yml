@@ -27,6 +27,8 @@ jobs:
         uses: maddox/actions/wait-for-200@master
         env:
           URL: http://localhost:8080/health
+          SECONDS_BETWEEN_CHECKS: 5
+          MAX_TRIES: 20
       - name: Run behat tests
         run: docker exec recipe-service_app_1 php /app/vendor/bin/behat
       #- name: Run test
