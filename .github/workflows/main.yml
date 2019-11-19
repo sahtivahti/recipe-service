@@ -43,36 +43,25 @@ jobs:
       - name: Run PHPUnit tests
         run: docker exec recipe-service_app_1 php /app/bin/phpunit
 
-  phpstan:
-    needs: build
+  analyze:
     name: PHPStan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Composer install
+        uses: docker://composer:1.9.1
+        with:
+          args: install
       - name: PHPStan
         uses: docker://mickaelandrieu/phpqa-ga
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
-
-  phpmd:
-    needs: build
-    name: PHP Mess Detector
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
       - name: PHP Mess Detector
-        uses: docker://mickaelandrieu/phpqa-ga
-        with:
-          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
-
-  phpqa:
-    needs: build
-    name: PHP Code Sniffer
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+          uses: docker://mickaelandrieu/phpqa-ga
+          with:
+            args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
       - name: PHP Code Sniffer
-        uses: docker://mickaelandrieu/phpqa-ga
-        with:
-          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
-
+          uses: docker://mickaelandrieu/phpqa-ga
+          with:
+            args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
