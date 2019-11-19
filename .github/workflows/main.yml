@@ -4,6 +4,18 @@ on: [ push ]
 
 jobs:
   build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Composer install
+        uses: docker://composer:1.9.1
+        with:
+          args: install
+
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,6 +28,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,8 +37,31 @@ jobs:
         run: docker-compose -f docker-compose.test.yml up -d
       - name: Wait until healthy
         run: while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8080/health)" != "200" ]]; do sleep 5; done
-        timeout-minutes: 1
+        timeout-minutes: 2
       - name: Run Behat tests
         run: docker exec recipe-service_app_1 php /app/vendor/bin/behat
       - name: Run PHPUnit tests
         run: docker exec recipe-service_app_1 php /app/bin/phpunit
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Composer install
+        uses: docker://composer:1.9.1
+        with:
+          args: install
+      - name: PHPStan
+        uses: docker://mickaelandrieu/phpqa-ga
+        with:
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
+      - name: PHP Mess Detector
+        uses: docker://mickaelandrieu/phpqa-ga
+        with:
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
+      - name: PHP Code Sniffer
+        uses: docker://mickaelandrieu/phpqa-ga
+        with:
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
