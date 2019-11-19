@@ -9,12 +9,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+      - name: Composer install
+        uses: docker://composer:1.9.1
         with:
-          name: sahtivahti/recipe-service
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          args: install
+
+  publish:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: sahtivahti/recipe-service
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
   test:
     name: Test
@@ -33,31 +41,34 @@ jobs:
         run: docker exec recipe-service_app_1 php /app/bin/phpunit
 
   phpstan:
+    needs: [build]
     name: PHPStan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: PHPQA
+      - name: PHPStan
         uses: docker://mickaelandrieu/phpqa-ga
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
 
   phpmd:
+    needs: [build]
     name: PHP Mess Detector
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: PHPQA
+      - name: PHP Mess Detector
         uses: docker://mickaelandrieu/phpqa-ga
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
 
   phpqa:
+    needs: [build]
     name: PHP Code Sniffer
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: PHPQA
+      - name: PHP Code Sniffer
         uses: docker://mickaelandrieu/phpqa-ga
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
