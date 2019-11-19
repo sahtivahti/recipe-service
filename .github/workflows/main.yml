@@ -30,10 +30,21 @@ jobs:
       - name: Run PHPUnit tests
         run: docker exec recipe-service_app_1 php /app/bin/phpunit
 
-  analysis:
+  psalm:
+    name: Psalm
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: psalm
+      - name: Run psalm check
         uses: docker://mickaelandrieu/psalm-ga
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga
+        with:
+          args: analyse src/ --level=7
