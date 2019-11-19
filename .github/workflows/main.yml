@@ -41,7 +41,7 @@ jobs:
         run: docker exec recipe-service_app_1 php /app/bin/phpunit
 
   phpstan:
-    needs: [build]
+    needs: build
     name: PHPStan
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +52,7 @@ jobs:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
 
   phpmd:
-    needs: [build]
+    needs: build
     name: PHP Mess Detector
     runs-on: ubuntu-latest
     steps:
@@ -63,7 +63,7 @@ jobs:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
 
   phpqa:
-    needs: [build]
+    needs: build
     name: PHP Code Sniffer
     runs-on: ubuntu-latest
     steps:
