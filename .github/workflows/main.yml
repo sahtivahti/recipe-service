@@ -4,6 +4,7 @@ on: [ push ]
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,6 +17,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
