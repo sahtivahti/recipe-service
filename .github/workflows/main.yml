@@ -44,7 +44,7 @@ jobs:
         run: docker exec recipe-service_app_1 php /app/bin/phpunit
 
   analyze:
-    name: PHPStan
+    name: Analyze
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
