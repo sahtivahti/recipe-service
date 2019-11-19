@@ -58,10 +58,10 @@ jobs:
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
       - name: PHP Mess Detector
-          uses: docker://mickaelandrieu/phpqa-ga
-          with:
-            args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
+        uses: docker://mickaelandrieu/phpqa-ga
+        with:
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
       - name: PHP Code Sniffer
-          uses: docker://mickaelandrieu/phpqa-ga
-          with:
-            args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
+        uses: docker://mickaelandrieu/phpqa-ga
+        with:
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
