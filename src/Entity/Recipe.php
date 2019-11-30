@@ -16,7 +16,7 @@ class Recipe
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?string $id = null;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
