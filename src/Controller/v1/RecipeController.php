@@ -17,26 +17,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class RecipeController
 {
-    /**
-     * @var RecipeRepository
-     */
-    private $recipeRepository;
+    private RecipeRepository $recipeRepository;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /**
-     * @var NormalizerInterface
-     */
-    private $normalizer;
+    private NormalizerInterface $normalizer;
 
-    /**
-     * @param RecipeRepository $recipeRepository
-     * @param EntityManagerInterface $entityManager
-     * @param NormalizerInterface $normalizer
-     */
     public function __construct(
         RecipeRepository $recipeRepository,
         EntityManagerInterface $entityManager,
