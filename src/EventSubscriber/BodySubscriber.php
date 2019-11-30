@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\EventSubscriber;
 
+use function json_decode;
 use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +62,7 @@ class BodySubscriber implements EventSubscriberInterface
         $content = $request->getContent();
 
         /** @var array $data */
-        $data = \json_decode($content, true);
+        $data = json_decode($content, true);
 
         $request->request->replace($data ?: []);
     }
