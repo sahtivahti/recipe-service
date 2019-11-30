@@ -1,4 +1,4 @@
-FROM php:7.3.11-fpm-alpine3.9
+FROM php:7.3.12-fpm-alpine3.9
 
 WORKDIR /app
 
