@@ -6,31 +6,26 @@ namespace App\Controller\v1;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route(path="/v1/recipe")
  */
-class RecipeController
+class RecipeController extends AbstractController
 {
     private RecipeRepository $recipeRepository;
 
     private EntityManagerInterface $entityManager;
 
-    private NormalizerInterface $normalizer;
-
     public function __construct(
         RecipeRepository $recipeRepository,
-        EntityManagerInterface $entityManager,
-        NormalizerInterface $normalizer
+        EntityManagerInterface $entityManager
     ) {
         $this->recipeRepository = $recipeRepository;
         $this->entityManager = $entityManager;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -38,8 +33,6 @@ class RecipeController
      *
      * @param Request $request
      * @return JsonResponse
-     *
-     * @throws ExceptionInterface
      */
     public function createRecipe(Request $request): JsonResponse
     {
@@ -50,21 +43,19 @@ class RecipeController
         $this->entityManager->persist($recipe);
         $this->entityManager->flush();
 
-        return new JsonResponse($this->normalizer->normalize($recipe, 'array'), 201);
+        return $this->json($recipe, 201);
     }
 
     /**
      * @Route(path="", methods={"GET"})
      *
      * @return JsonResponse
-     *
-     * @throws ExceptionInterface
      */
     public function listRecipes(): JsonResponse
     {
         $recipes = $this->recipeRepository->findAll();
 
-        return new JsonResponse($this->normalizer->normalize($recipes, 'array'));
+        return $this->json($recipes);
     }
 
     /**
@@ -73,12 +64,10 @@ class RecipeController
      * @param Recipe $recipe
      *
      * @return JsonResponse
-     *
-     * @throws ExceptionInterface
      */
     public function getRecipe(Recipe $recipe): JsonResponse
     {
-        return new JsonResponse($this->normalizer->normalize($recipe, 'array'));
+        return $this->json($recipe);
     }
 
     /**
@@ -88,8 +77,6 @@ class RecipeController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @throws ExceptionInterface
      */
     public function updateRecipe(Recipe $recipe, Request $request): JsonResponse
     {
@@ -100,6 +87,6 @@ class RecipeController
         $this->entityManager->persist($recipe);
         $this->entityManager->flush();
 
-        return new JsonResponse($this->normalizer->normalize($recipe, 'array'));
+        return $this->json($recipe);
     }
 }
