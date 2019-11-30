@@ -49,12 +49,6 @@ Tests are located under the [tests](./tests) directory.
 ./bin/phpunit
 ```
 
-**Behat**
-
-```
-./vendor/bin/behat
-```
-
 ## License
 
 MIT
