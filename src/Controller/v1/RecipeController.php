@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace App\Controller\v1;
 
 use App\Entity\Recipe;
-use App\Repository\RecipeRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\RecipeService;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,23 +16,21 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RecipeController extends AbstractController
 {
-    private RecipeRepository $recipeRepository;
+    private RecipeService $recipeService;
 
-    private EntityManagerInterface $entityManager;
+    public function __construct(RecipeService $recipeService) {
 
-    public function __construct(
-        RecipeRepository $recipeRepository,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->recipeRepository = $recipeRepository;
-        $this->entityManager = $entityManager;
+        $this->recipeService = $recipeService;
     }
 
     /**
      * @Route(path="", methods={"POST"})
      *
      * @param Request $request
+     *
      * @return JsonResponse
+     *
+     * @throws ORMException
      */
     public function createRecipe(Request $request): JsonResponse
     {
@@ -40,8 +38,7 @@ class RecipeController extends AbstractController
             ->setName($request->get('name'))
             ->setAuthor($request->get('author'));
 
-        $this->entityManager->persist($recipe);
-        $this->entityManager->flush();
+        $recipe = $this->recipeService->addOrUpdate($recipe);
 
         return $this->json($recipe, 201);
     }
@@ -53,7 +50,7 @@ class RecipeController extends AbstractController
      */
     public function listRecipes(): JsonResponse
     {
-        $recipes = $this->recipeRepository->findAll();
+        $recipes = $this->recipeService->getAllRecipes();
 
         return $this->json($recipes);
     }
@@ -77,6 +74,8 @@ class RecipeController extends AbstractController
      * @param Request $request
      *
      * @return JsonResponse
+     *
+     * @throws ORMException
      */
     public function updateRecipe(Recipe $recipe, Request $request): JsonResponse
     {
@@ -84,8 +83,7 @@ class RecipeController extends AbstractController
             ->setName($request->get('name', $recipe->getName()))
             ->setAuthor($request->get('author', $recipe->getAuthor()));
 
-        $this->entityManager->persist($recipe);
-        $this->entityManager->flush();
+        $this->recipeService->addOrUpdate($recipe);
 
         return $this->json($recipe);
     }
