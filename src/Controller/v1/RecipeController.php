@@ -5,7 +5,6 @@ namespace App\Controller\v1;
 
 use App\Entity\Recipe;
 use App\Service\RecipeService;
-use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,8 +17,8 @@ class RecipeController extends AbstractController
 {
     private RecipeService $recipeService;
 
-    public function __construct(RecipeService $recipeService) {
-
+    public function __construct(RecipeService $recipeService)
+    {
         $this->recipeService = $recipeService;
     }
 
@@ -29,8 +28,6 @@ class RecipeController extends AbstractController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @throws ORMException
      */
     public function createRecipe(Request $request): JsonResponse
     {
@@ -74,8 +71,6 @@ class RecipeController extends AbstractController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @throws ORMException
      */
     public function updateRecipe(Recipe $recipe, Request $request): JsonResponse
     {

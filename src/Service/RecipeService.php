@@ -21,11 +21,6 @@ class RecipeService
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @param Recipe $recipe
-     *
-     * @return Recipe
-     */
     public function addOrUpdate(Recipe $recipe): Recipe
     {
         $this->entityManager->persist($recipe);
@@ -34,9 +29,6 @@ class RecipeService
         return $recipe;
     }
 
-    /**
-     * @param Recipe $recipe
-     */
     public function deleteRecipe(Recipe $recipe): void
     {
         $this->entityManager->remove($recipe);

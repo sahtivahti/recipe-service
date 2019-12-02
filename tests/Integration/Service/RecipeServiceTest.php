@@ -7,8 +7,6 @@ use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
