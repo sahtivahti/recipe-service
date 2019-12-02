@@ -40,12 +40,12 @@ jobs:
       - name: PHPStan
         uses: docker://mickaelandrieu/phpqa-ga
         with:
-          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan:0
       - name: PHP Mess Detector
         uses: docker://mickaelandrieu/phpqa-ga
         with:
-          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpmd:0
       - name: PHP Code Sniffer
         uses: docker://mickaelandrieu/phpqa-ga
         with:
-          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs:0
