@@ -6,6 +6,7 @@ namespace App\Tests\Integration\Service;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,6 +20,11 @@ class RecipeServiceTest extends TestCase
     private $recipeRepositoryMock;
 
     /**
+     * @var EntityManagerInterface|MockObject
+     */
+    private $entityManagerMock;
+
+    /**
      * @var RecipeService
      */
     private RecipeService $recipeService;
@@ -26,36 +32,53 @@ class RecipeServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->recipeRepositoryMock = $this->createMock(RecipeRepository::class);
+        $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
 
-        $this->recipeService = new RecipeService($this->recipeRepositoryMock);
+        $this->recipeService = new RecipeService(
+            $this->recipeRepositoryMock,
+            $this->entityManagerMock
+        );
     }
 
-    /**
-     * @throws ORMException
-     */
-    public function testThatSaveRecipeCallsRepository(): void
+    public function testThatSaveRecipeCallsEntityManager(): void
     {
         $recipe = new Recipe();
 
-        $this->recipeRepositoryMock->expects(static::once())->method('saveRecipe')->with($recipe);
+        $this->entityManagerMock
+            ->expects(static::once())
+            ->method('persist')
+            ->with($recipe);
+
+        $this->entityManagerMock
+            ->expects(static::once())
+            ->method('flush');
+
         $this->recipeService->addOrUpdate($recipe);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function testThatDeleteRecipeCallsRepository(): void
     {
         $recipe = new Recipe();
 
-        $this->recipeRepositoryMock->expects(static::once())->method('deleteRecipe')->with($recipe);
+        $this->entityManagerMock
+            ->expects(static::once())
+            ->method('remove')
+            ->with($recipe);
+
+        $this->entityManagerMock
+            ->expects(static::once())
+            ->method('flush');
+
         $this->recipeService->deleteRecipe($recipe);
     }
 
     public function testThatGetAllRecipesCallsRepository(): void
     {
-        $this->recipeRepositoryMock->expects(static::once())->method('findAll')->willReturn([]);
+        $this->recipeRepositoryMock
+            ->expects(static::once())
+            ->method('findAll')
+            ->willReturn([]);
+
         $this->recipeService->getAllRecipes();
     }
 }

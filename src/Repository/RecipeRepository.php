@@ -20,31 +20,4 @@ class RecipeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recipe::class);
     }
-
-    /**
-     * @param Recipe $recipe
-     *
-     * @return Recipe
-     *
-     * @throws ORMException
-     */
-    public function saveRecipe(Recipe $recipe): Recipe
-    {
-       $this->getEntityManager()->persist($recipe);
-       $this->getEntityManager()->flush($recipe);
-
-       return $recipe;
-    }
-
-    /**
-     * @param Recipe $recipe
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function deleteRecipe(Recipe $recipe): void
-    {
-        $this->getEntityManager()->remove($recipe);
-        $this->getEntityManager()->flush($recipe);
-    }
 }
