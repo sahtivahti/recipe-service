@@ -40,7 +40,7 @@ jobs:
       - name: PHPStan
         uses: docker://mickaelandrieu/phpqa-ga
         with:
-          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan:0
+          args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpstan
       - name: PHP Mess Detector
         uses: docker://mickaelandrieu/phpqa-ga
         with:
