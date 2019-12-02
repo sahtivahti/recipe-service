@@ -6,6 +6,7 @@ namespace App\Tests\Integration\Service;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -78,5 +79,18 @@ class RecipeServiceTest extends TestCase
             ->willReturn([]);
 
         $this->recipeService->getAllRecipes();
+    }
+
+    public function testThatUpdateChangesUpdatedAtTimestamp(): void
+    {
+        /** @var Recipe|MockObject $recipeMock */
+        $recipeMock = $this->createMock(Recipe::class);
+
+        $recipeMock
+            ->expects(static::once())
+            ->method('setUpdatedAt')
+            ->with(static::isInstanceOf(DateTime::class));
+
+        $this->recipeService->addOrUpdate($recipeMock);
     }
 }
