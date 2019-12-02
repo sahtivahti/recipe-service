@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e14c2edd4aef6d6c81ba48beb4097dd5",
+    "content-hash": "77cc92028c02021de848463eb027a00c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2697,7 +2697,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -3146,7 +3146,7 @@
         },
         {
             "name": "symfony/property-info",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",

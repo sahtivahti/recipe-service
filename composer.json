@@ -13,7 +13,7 @@
         "symfony/framework-bundle": "5.0.0",
         "symfony/orm-pack": "^1.0",
         "symfony/property-access": "5.0.0",
-        "symfony/property-info": "5.0.0",
+        "symfony/property-info": "5.0.1",
         "symfony/serializer": "5.0.0",
         "symfony/translation": "5.0.0",
         "symfony/yaml": "5.0.0"
