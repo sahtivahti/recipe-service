@@ -7,7 +7,6 @@ use App\Entity\Recipe;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,17 +24,13 @@ class RecipeController extends AbstractController
     /**
      * @Route(path="", methods={"POST"})
      *
-     * @param Request $request
+     * @param Recipe $fromBody
      *
      * @return JsonResponse
      */
-    public function createRecipe(Request $request): JsonResponse
+    public function createRecipe(Recipe $fromBody): JsonResponse
     {
-        $recipe = (new Recipe())
-            ->setName($request->get('name'))
-            ->setAuthor($request->get('author'));
-
-        $recipe = $this->recipeService->addOrUpdate($recipe);
+        $recipe = $this->recipeService->addOrUpdate($fromBody);
 
         return $this->json($recipe, 201);
     }
@@ -55,31 +50,37 @@ class RecipeController extends AbstractController
     /**
      * @Route(path="/{id}", methods={"GET"})
      *
-     * @param Recipe $recipe
+     * @param int $id
      *
      * @return JsonResponse
      */
-    public function getRecipe(Recipe $recipe): JsonResponse
+    public function getRecipe(int $id): JsonResponse
     {
-        return $this->json($recipe);
+        return $this->json($this->recipeService->getById($id));
     }
 
     /**
      * @Route(path="/{id}", methods={"PUT"})
      *
-     * @param Recipe $recipe
-     * @param Request $request
+     * @param Recipe $fromBody
+     * @param int $id
      *
      * @return JsonResponse
      */
-    public function updateRecipe(Recipe $recipe, Request $request): JsonResponse
+    public function updateRecipe(Recipe $fromBody, int $id): JsonResponse
     {
-        $recipe
-            ->setName($request->get('name', $recipe->getName()))
-            ->setAuthor($request->get('author', $recipe->getAuthor()));
+        $oldRecipe = $this->recipeService->getById($id);
 
-        $this->recipeService->addOrUpdate($recipe);
+        if ($oldRecipe === null) {
+            $this->createNotFoundException();
+        }
 
-        return $this->json($recipe);
+        $oldRecipe
+            ->setAuthor($fromBody->getAuthor())
+            ->setName($fromBody->getName());
+
+        $this->recipeService->addOrUpdate($oldRecipe);
+
+        return $this->json($oldRecipe);
     }
 }

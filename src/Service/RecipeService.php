@@ -45,4 +45,9 @@ class RecipeService
     {
         return $this->recipeRepository->findAll();
     }
+
+    public function getById(int $id): ?Recipe
+    {
+        return $this->recipeRepository->find($id);
+    }
 }
