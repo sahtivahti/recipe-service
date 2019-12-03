@@ -31,12 +31,12 @@ class Recipe
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $createdAt;
+    private DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private ?DateTimeInterface $updatedAt;
+    private DateTimeInterface $updatedAt;
 
     public function __construct()
     {
@@ -73,7 +73,7 @@ class Recipe
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -85,12 +85,12 @@ class Recipe
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
