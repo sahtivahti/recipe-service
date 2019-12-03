@@ -4,13 +4,17 @@ info:
   description: |
     Recipe management in Sahtivahti app
   version: 0.0.1
+
 paths:
   /health:
     get:
       summary: Service healthcheck
+      tags:
+        - Common
       description: For monitoring the service health
       responses:
         '200':
+          description: The healthcheck result
           content:
             application/json:
               schema:
@@ -19,14 +23,68 @@ paths:
   /v1/recipe:
     get:
       summary: List all recipes
+      tags:
+        - Recipe
       responses:
         200:
+          description: List of recipes
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Recipe'
+    post:
+      summary: Create recipe
+      tags:
+        - Recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+      responses:
+        201:
+          description: The created recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+  /v1/recipe/{id}:
+    get:
+      summary: Get recipe by id
+      tags:
+        - Recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+    put:
+      summary: Update recipe by id
+      tags:
+        - Recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The updated recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
 
 components:
   schemas:
