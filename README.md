@@ -8,6 +8,7 @@ Recipe related management for Sahtivahti application
 
 * [Table of Contents](#table-of-contents)
 * [Installation](#installation)
+* [API documentation](#api-documentation)
 * [Database](#database)
   * [Running migrations](#running-migrations)
 * [Tests](#tests)
@@ -24,6 +25,10 @@ Recipe related management for Sahtivahti application
 ```
 docker-compose up -d
 ```
+
+## API documentation
+
+Swagger API documentation is available at http://localhost:8080/doc after the application has started.
 
 ## Database
 
