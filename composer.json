@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "doctrine/annotations": "^1.8",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/console": "5.0.1",
         "symfony/dotenv": "5.0.1",
@@ -16,6 +17,7 @@
         "symfony/property-info": "5.0.1",
         "symfony/serializer": "5.0.1",
         "symfony/translation": "5.0.1",
+        "symfony/validator": "5.0.1",
         "symfony/yaml": "5.0.1"
     },
     "require-dev": {

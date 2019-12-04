@@ -8,6 +8,7 @@ use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route(path="/v1/recipe")
@@ -16,9 +17,14 @@ class RecipeController extends AbstractController
 {
     private RecipeService $recipeService;
 
-    public function __construct(RecipeService $recipeService)
-    {
+    private ValidatorInterface $validator;
+
+    public function __construct(
+        RecipeService $recipeService,
+        ValidatorInterface $validator
+    ) {
         $this->recipeService = $recipeService;
+        $this->validator = $validator;
     }
 
     /**
@@ -30,6 +36,12 @@ class RecipeController extends AbstractController
      */
     public function createRecipe(Recipe $fromBody): JsonResponse
     {
+        $errors = $this->validator->validate($fromBody);
+
+        if (count($errors) > 0) {
+            return $this->json(['errors' => (string)$errors], 400);
+        }
+
         $recipe = $this->recipeService->addOrUpdate($fromBody);
 
         return $this->json($recipe, 201);
@@ -75,6 +87,12 @@ class RecipeController extends AbstractController
      */
     public function updateRecipe(Recipe $fromBody, int $id): JsonResponse
     {
+        $errors = $this->validator->validate($fromBody);
+
+        if (count($errors) > 0) {
+            return $this->json(['errors' => (string)$errors]);
+        }
+
         $oldRecipe = $this->recipeService->getById($id);
 
         if ($oldRecipe === null) {
