@@ -4,21 +4,31 @@ declare(strict_types = 1);
 namespace App\Controller\v1;
 
 use App\Entity\Recipe;
+use App\Helpers\Traits\ValidationErrorsTrait;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route(path="/v1/recipe")
  */
 class RecipeController extends AbstractController
 {
+    use ValidationErrorsTrait;
+
     private RecipeService $recipeService;
 
-    public function __construct(RecipeService $recipeService)
-    {
+    private ValidatorInterface $validator;
+
+    public function __construct(
+        RecipeService $recipeService,
+        ValidatorInterface $validator
+    ) {
         $this->recipeService = $recipeService;
+        $this->validator = $validator;
     }
 
     /**
@@ -30,9 +40,15 @@ class RecipeController extends AbstractController
      */
     public function createRecipe(Recipe $fromBody): JsonResponse
     {
+        $errors = $this->validator->validate($fromBody);
+
+        if (count($errors) > 0) {
+            return $this->createValidationErrorResponse($errors);
+        }
+
         $recipe = $this->recipeService->addOrUpdate($fromBody);
 
-        return $this->json($recipe, 201);
+        return $this->json($recipe, Response::HTTP_CREATED);
     }
 
     /**
@@ -75,6 +91,12 @@ class RecipeController extends AbstractController
      */
     public function updateRecipe(Recipe $fromBody, int $id): JsonResponse
     {
+        $errors = $this->validator->validate($fromBody);
+
+        if (count($errors) > 0) {
+            return $this->createValidationErrorResponse($errors);
+        }
+
         $oldRecipe = $this->recipeService->getById($id);
 
         if ($oldRecipe === null) {
