@@ -11,11 +11,11 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class RequestObjectResolver implements ArgumentValueResolverInterface
 {
-    private DenormalizerInterface $deNormalizer;
+    private DenormalizerInterface $denormalizer;
 
-    public function __construct(DenormalizerInterface $deNormalizer)
+    public function __construct(DenormalizerInterface $denormalizer)
     {
-        $this->deNormalizer = $deNormalizer;
+        $this->denormalizer = $denormalizer;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
@@ -26,6 +26,6 @@ class RequestObjectResolver implements ArgumentValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
-        yield $this->deNormalizer->denormalize($request->request->all(), $argument->getType());
+        yield $this->denormalizer->denormalize($request->request->all(), $argument->getType());
     }
 }

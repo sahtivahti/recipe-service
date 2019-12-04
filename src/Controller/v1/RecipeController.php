@@ -56,7 +56,13 @@ class RecipeController extends AbstractController
      */
     public function getRecipe(int $id): JsonResponse
     {
-        return $this->json($this->recipeService->getById($id));
+        $recipe = $this->recipeService->getById($id);
+
+        if ($recipe === null) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->json($recipe);
     }
 
     /**
