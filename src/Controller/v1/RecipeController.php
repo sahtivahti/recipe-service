@@ -78,7 +78,7 @@ class RecipeController extends AbstractController
         $oldRecipe = $this->recipeService->getById($id);
 
         if ($oldRecipe === null) {
-            $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         $oldRecipe
