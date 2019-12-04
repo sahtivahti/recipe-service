@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace App\Controller\v1;
 
 use App\Entity\Recipe;
+use App\Helpers\Traits\ValidationErrorsTrait;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -15,6 +17,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class RecipeController extends AbstractController
 {
+    use ValidationErrorsTrait;
+
     private RecipeService $recipeService;
 
     private ValidatorInterface $validator;
@@ -39,12 +43,12 @@ class RecipeController extends AbstractController
         $errors = $this->validator->validate($fromBody);
 
         if (count($errors) > 0) {
-            return $this->json(['errors' => (string)$errors], 400);
+            return $this->createValidationErrorResponse($errors);
         }
 
         $recipe = $this->recipeService->addOrUpdate($fromBody);
 
-        return $this->json($recipe, 201);
+        return $this->json($recipe, Response::HTTP_CREATED);
     }
 
     /**
@@ -90,7 +94,7 @@ class RecipeController extends AbstractController
         $errors = $this->validator->validate($fromBody);
 
         if (count($errors) > 0) {
-            return $this->json(['errors' => (string)$errors]);
+            return $this->createValidationErrorResponse($errors);
         }
 
         $oldRecipe = $this->recipeService->getById($id);
