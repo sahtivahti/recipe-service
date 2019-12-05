@@ -15,7 +15,8 @@ trait ValidationErrorsTrait
     protected function createValidationErrorResponse(ConstraintViolationListInterface $validationErrors): JsonResponse
     {
         $errors = array_map(
-            fn(ConstraintViolationInterface $violation) => [
+            fn(ConstraintViolationInterface $violation) =>
+            [
                 'property' => $violation->getPropertyPath(),
                 'message' => $violation->getMessage()
             ],
