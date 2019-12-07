@@ -111,4 +111,24 @@ class RecipeController extends AbstractController
 
         return $this->json($oldRecipe);
     }
+
+    /**
+     * @Route(path="/{id}", methods={"DELETE"})
+     *
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function deleteRecipe(int $id): JsonResponse
+    {
+        $recipe = $this->recipeService->getById($id);
+
+        if ($recipe === null) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->recipeService->deleteRecipe($recipe);
+
+        return $this->json($recipe);
+    }
 }
