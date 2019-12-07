@@ -26,10 +26,10 @@ jobs:
         uses: actions/checkout@master
       - name: Install PHP extensions
         uses: shivammathur/setup-php@v1
-          with:
-            php-version: ${{ matrix.php-version }}
-            coverage: xdebug
-            extension-csv: pdo_mysql
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: xdebug
+          extension-csv: pdo_mysql
       - name: Install Composer packages
         run: composer install
       - name: Run PHPUnit
