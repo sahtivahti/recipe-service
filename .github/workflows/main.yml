@@ -6,12 +6,14 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service?serverVersion=8.0.18
 
     services:
       mariadb:
         image: mysql:8.0.18
         ports:
-          - 3306
+          - 33066:3306
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: recipe-service
