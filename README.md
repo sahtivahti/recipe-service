@@ -1,6 +1,8 @@
 # RECIPE-SERVICE
 
 [![Actions Status](https://github.com/sahtivahti/recipe-service/workflows/CI/badge.svg)](https://github.com/sahtivahti/recipe-service/actions)
+[![codecov](https://codecov.io/gh/sahtivahti/recipe-service/branch/master/graph/badge.svg)](https://codecov.io/gh/sahtivahti/recipe-service)
+
 
 Recipe related management for Sahtivahti application
 
