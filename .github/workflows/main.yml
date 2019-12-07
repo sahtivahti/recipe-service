@@ -30,17 +30,16 @@ jobs:
           extension-csv: pdo_mysql, mbstring, json, ctype, iconv
       - name: Install Composer packages
         run: composer install
-      - name: Run database migrations
-        run: ./bin/console doctrine:migrations:migrate --no-interaction
       - name: Fix permissions
         run: chmod +x ./bin/phpunit ./bin/console
+      - name: Run database migrations
+        run: ./bin/console doctrine:migrations:migrate --no-interaction
       - name: Run PHPUnit
         run: ./bin/phpunit --coverage-clover=coverage.xml
       - name: Report Codecov.io
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: bash <(curl -s https://codecov.io/bash) || true
-
 
   analyze:
     name: Analyze
