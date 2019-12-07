@@ -28,7 +28,6 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: 7.4
-          coverage: xdebug
           extension-csv: pdo_mysql, mbstring, json, ctype, iconv
       - name: Install Composer packages
         run: composer install
@@ -37,7 +36,7 @@ jobs:
       - name: Run database migrations
         run: ./bin/console doctrine:migrations:migrate --no-interaction
       - name: Run PHPUnit
-        run: ./bin/phpunit --coverage-clover=coverage.xml
+        run: phpdbg -qrr bin/phpunit --coverage-clover=coverage.xml
       - name: Report Codecov.io
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
