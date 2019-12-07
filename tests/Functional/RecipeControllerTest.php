@@ -128,4 +128,36 @@ class RecipeControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $response->getStatusCode());
         static::assertCount(0, array_filter($data, fn(array $x): bool => $x['id'] === $recipeId));
     }
+
+    public function testThatGetRecipeReturns404IfNotFound(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/v1/recipe/999999');
+
+        static::assertSame(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
+    public function testThatUpdateRecipeReturns404IfNotFound(): void
+    {
+        $client = static::createClient();
+
+        $body = [
+            'name' => 'My updated beer recipe',
+            'author' => 'owner-changed@sahtivahti.fi'
+        ];
+
+        $client->request('PUT', '/v1/recipe/999999', $body);
+
+        static::assertSame(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
+    public function testThatDeleteRecipeReturns404IfNotFound(): void
+    {
+        $client = static::createClient();
+
+        $client->request('DELETE', '/v1/recipe/999999');
+
+        static::assertSame(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
 }
