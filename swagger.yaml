@@ -85,6 +85,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Recipe'
+    delete:
+      summary: Delete recipe by id
+      tags:
+        - Recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The deleted recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
 
 components:
   schemas:
