@@ -30,15 +30,10 @@ jobs:
           extension-csv: pdo_mysql, mbstring, json, ctype, iconv
       - name: Install Composer packages
         run: composer install
+      - name: Run database migrations
+        run: ./bin/console doctrine:migrations:migrate --no-interaction
       - name: Fix permissions
         run: chmod +x ./bin/phpunit
-      - name: Verify MariaDB connection
-        env:
-          PORT: ${{ job.services.mariadb.ports[3306] }}
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
-            sleep 1
-          done
       - name: Run PHPUnit
         run: ./bin/phpunit --coverage-clover=coverage.xml
       - name: Report Codecov.io
