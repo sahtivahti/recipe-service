@@ -12,7 +12,7 @@ use function iterator_to_array;
 
 trait ValidationErrorsTrait
 {
-    protected function createValidationErrorResponse(ConstraintViolationListInterface $validationErrors): JsonResponse
+    public function createValidationErrorResponse(ConstraintViolationListInterface $validationErrors): JsonResponse
     {
         $errors = array_map(
             fn(ConstraintViolationInterface $violation) =>
