@@ -160,4 +160,27 @@ class RecipeControllerTest extends WebTestCase
 
         static::assertSame(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
+
+    public function testThatCreateRecipeReturns400WithInvalidBody(): void
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/v1/recipe');
+
+        static::assertSame(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testThatNewRecipeCanBeCreated
+     *
+     * @param int $recipeId
+     */
+    public function testThatUpdateRecipeReturns400WithInvalidBody(int $recipeId): void
+    {
+        $client = static::createClient();
+
+        $client->request('PUT', '/v1/recipe/' . $recipeId);
+
+        static::assertSame(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
 }
