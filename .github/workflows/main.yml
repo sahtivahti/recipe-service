@@ -14,18 +14,30 @@ jobs:
         with:
           args: install
 
-  publish:
-    name: Publish
+  test:
+    name: Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version:
+          - 7.4
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: sahtivahti/recipe-service
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Install PHP extensions
+        uses: shivammathur/setup-php@v1
+          with:
+            php-version: ${{ matrix.php-version }}
+            coverage: xdebug
+            extension-csv: pdo_mysql
+      - name: Install Composer packages
+        run: composer install
+      - name: Run PHPUnit
+        run: ./bin/phpunit --coverage-clover=coverage.xml
+      - name: Report Codecov.io
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: bash <(curl -s https://codecov.io/bash) || true
 
   analyze:
     name: Analyze
@@ -49,3 +61,16 @@ jobs:
         uses: docker://mickaelandrieu/phpqa-ga
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs:0
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: sahtivahti/recipe-service
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
