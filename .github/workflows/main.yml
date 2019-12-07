@@ -6,6 +6,19 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mysql:8.0.18
+        ports:
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: recipe-service
+          MYSQL_USER: sahtivahti
+          MYSQL_PASSWORD: sahtivahti
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -19,12 +32,20 @@ jobs:
         run: composer install
       - name: Fix permissions
         run: chmod +x ./bin/phpunit
+      - name: Verify MariaDB connection
+        env:
+          PORT: ${{ job.services.mariadb.ports[3306] }}
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
+            sleep 1
+          done
       - name: Run PHPUnit
         run: ./bin/phpunit --coverage-clover=coverage.xml
       - name: Report Codecov.io
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: bash <(curl -s https://codecov.io/bash) || true
+
 
   analyze:
     name: Analyze
