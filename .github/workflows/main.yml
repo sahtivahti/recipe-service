@@ -28,6 +28,8 @@ jobs:
           extension-csv: pdo_mysql
       - name: Install Composer packages
         run: composer install
+      - name: Fix permissions
+        run: chmod +x ./bin/phpunit
       - name: Run PHPUnit
         run: ./bin/phpunit --coverage-clover=coverage.xml
       - name: Report Codecov.io
