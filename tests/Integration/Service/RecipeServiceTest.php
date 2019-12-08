@@ -93,4 +93,14 @@ class RecipeServiceTest extends TestCase
 
         $this->recipeService->addOrUpdate($recipeMock);
     }
+
+    public function testThatGetByIdCallsRepository(): void
+    {
+        $this->recipeRepositoryMock
+            ->expects(static::once())
+            ->method('find')
+            ->with(1);
+
+        $this->recipeService->getById(1);
+    }
 }

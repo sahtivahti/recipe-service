@@ -6,6 +6,21 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service?serverVersion=8.0.18
+
+    services:
+      mariadb:
+        image: mysql:8.0.18
+        ports:
+          - 33066:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: recipe-service
+          MYSQL_USER: sahtivahti
+          MYSQL_PASSWORD: sahtivahti
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -13,14 +28,15 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: 7.4
-          coverage: xdebug
-          extension-csv: pdo_mysql, mbstring, json, ctype, iconv
+          extension-csv: pdo_mysql, mbstring, json, ctype, iconv, pcov
       - name: Install Composer packages
         run: composer install
       - name: Fix permissions
-        run: chmod +x ./bin/phpunit
+        run: chmod +x ./bin/phpunit ./bin/console
+      - name: Run database migrations
+        run: ./bin/console doctrine:migrations:migrate --no-interaction
       - name: Run PHPUnit
-        run: ./bin/phpunit --coverage-clover=coverage.xml
+        run: php -d pcov.enabled=1 bin/phpunit - --coverage-clover=coverage.xml
       - name: Report Codecov.io
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
