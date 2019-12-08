@@ -7,11 +7,11 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service?serverVersion=8.0.18
+      DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service
 
     services:
       mariadb:
-        image: mysql:8.0.18
+        image: mariadb:10.4.10
         ports:
           - 33066:3306
         env:
