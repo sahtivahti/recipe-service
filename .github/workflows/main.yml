@@ -7,7 +7,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service
+      DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service?serverVersion=8.0.18
 
     services:
       mariadb:
@@ -33,6 +33,11 @@ jobs:
         run: composer install
       - name: Fix permissions
         run: chmod +x ./bin/phpunit ./bin/console
+      - name: Verify MariaDB connection
+        run: |
+          while ! mysqladmin ping -h127.0.0.1 -P33066 --silent; do
+            sleep 1
+          done
       - name: Run database migrations
         run: ./bin/console doctrine:migrations:migrate --no-interaction
       - name: Run PHPUnit
