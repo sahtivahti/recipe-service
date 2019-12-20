@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5dff95f909a47d0013c742579607bf6",
+    "content-hash": "5c483832649ac686af5e764fee815697",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3299,16 +3299,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "8d565a47eede00bd69f04db8050e5bae1b9553ad"
+                "reference": "3cfc478c102f2d3bcf60edd339cd9c3cb446a576"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/8d565a47eede00bd69f04db8050e5bae1b9553ad",
-                "reference": "8d565a47eede00bd69f04db8050e5bae1b9553ad",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/3cfc478c102f2d3bcf60edd339cd9c3cb446a576",
+                "reference": "3cfc478c102f2d3bcf60edd339cd9c3cb446a576",
                 "shasum": ""
             },
             "require": {
@@ -3377,7 +3377,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-28T14:32:28+00:00"
+            "time": "2019-12-16T11:08:25+00:00"
         },
         {
             "name": "symfony/service-contracts",
