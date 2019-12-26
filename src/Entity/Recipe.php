@@ -35,6 +35,12 @@ class Recipe
     private string $author = '';
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private string $userId = '';
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private DateTimeInterface $createdAt;
@@ -75,6 +81,18 @@ class Recipe
     public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(string $userId): self
+    {
+        $this->userId = $userId;
 
         return $this;
     }

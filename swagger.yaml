@@ -114,6 +114,8 @@ components:
         author:
           type: string
           format: email
+        userId:
+          type: string
         createdAt:
           type: string
           format: date-time

@@ -15,7 +15,8 @@ class RecipeControllerTest extends WebTestCase
 
         $body = [
             'name' => 'My another beer recipe',
-            'author' => 'panomestari@sahtivahti.fi'
+            'author' => 'panomestari@sahtivahti.fi',
+            'userId' => 'auth0|foobar'
         ];
 
         $client->request('POST', '/v1/recipe', $body);
@@ -26,6 +27,7 @@ class RecipeControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
         static::assertSame('My another beer recipe', $data['name']);
         static::assertSame('panomestari@sahtivahti.fi', $data['author']);
+        static::assertSame('auth0|foobar', $data['userId']);
 
         return $data['id'];
     }
@@ -48,6 +50,7 @@ class RecipeControllerTest extends WebTestCase
         static::assertSame($recipeId, $data['id']);
         static::assertSame('My another beer recipe', $data['name']);
         static::assertSame('panomestari@sahtivahti.fi', $data['author']);
+        static::assertSame('auth0|foobar', $data['userId']);
     }
 
     /**
@@ -61,7 +64,8 @@ class RecipeControllerTest extends WebTestCase
 
         $body = [
             'name' => 'My updated beer recipe',
-            'author' => 'owner-changed@sahtivahti.fi'
+            'author' => 'owner-changed@sahtivahti.fi',
+            'userId' => 'auth0|foobar'
         ];
 
         $client->request('PUT', '/v1/recipe/' . $recipeId, $body);
@@ -72,6 +76,7 @@ class RecipeControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $response->getStatusCode());
         static::assertSame('My updated beer recipe', $data['name']);
         static::assertSame('owner-changed@sahtivahti.fi', $data['author']);
+        static::assertSame('auth0|foobar', $data['userId']);
     }
 
     /**
@@ -144,7 +149,8 @@ class RecipeControllerTest extends WebTestCase
 
         $body = [
             'name' => 'My updated beer recipe',
-            'author' => 'owner-changed@sahtivahti.fi'
+            'author' => 'owner-changed@sahtivahti.fi',
+            'userId' => 'auth0|foobar'
         ];
 
         $client->request('PUT', '/v1/recipe/999999', $body);
