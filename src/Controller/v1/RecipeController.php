@@ -105,7 +105,8 @@ class RecipeController extends AbstractController
 
         $oldRecipe
             ->setAuthor($fromBody->getAuthor())
-            ->setName($fromBody->getName());
+            ->setName($fromBody->getName())
+            ->setUserId($fromBody->getUserId());
 
         $this->recipeService->addOrUpdate($oldRecipe);
 
