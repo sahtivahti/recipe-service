@@ -31,6 +31,20 @@ class RecipeSearchFiltersTest extends TestCase
 
         $filters->applyTo($qbMock);
     }
+    
+    public function testSettersAndGetters(): void
+    {
+        $filters = (new RecipeSearchFilters())
+            ->setUserId('userId')
+            ->setName('name')
+            ->setAuthor('author')
+            ->setPage(2);
+
+        static::assertSame('userId', $filters->getUserId());
+        static::assertSame('name', $filters->getName());
+        static::assertSame('author', $filters->getAuthor());
+        static::assertSame(2, $filters->getPage());
+    }
 
     public function dataProviderFilters(): array
     {
