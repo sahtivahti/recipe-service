@@ -124,6 +124,11 @@ components:
           required: true
         userId:
           type: string
+        style:
+          type: string
+        batchSize:
+          type: number
+          minimum: 0.00
         createdAt:
           type: string
           format: date-time

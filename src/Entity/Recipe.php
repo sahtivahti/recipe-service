@@ -36,6 +36,7 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank(groups={"Create"})
      */
     private string $userId = '';
@@ -49,6 +50,18 @@ class Recipe
      * @ORM\Column(type="datetime")
      */
     private DateTimeInterface $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $style = '';
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     *
+     * @Assert\GreaterThanOrEqual(0.00)
+     */
+    private float $batchSize = 0.00;
 
     public function __construct()
     {
@@ -110,6 +123,30 @@ class Recipe
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getStyle(): string
+    {
+        return $this->style;
+    }
+
+    public function setStyle(string $style): self
+    {
+        $this->style = $style;
+
+        return $this;
+    }
+
+    public function getBatchSize(): float
+    {
+        return $this->batchSize;
+    }
+
+    public function setBatchSize(float $batchSize): self
+    {
+        $this->batchSize = $batchSize;
 
         return $this;
     }
