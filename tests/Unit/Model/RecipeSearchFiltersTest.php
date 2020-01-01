@@ -31,7 +31,20 @@ class RecipeSearchFiltersTest extends TestCase
 
         $filters->applyTo($qbMock);
     }
-    
+
+    public function testThatFiltersAddsPagination(): void
+    {
+        /** @var QueryBuilder|MockObject $qbMock */
+        $qbMock = $this->createMock(QueryBuilder::class);
+        $qbMock->method(static::anything())->willReturn($qbMock);
+
+        $qbMock->expects(static::once())->method('setFirstResult')->with(20);
+
+        $filters = (new RecipeSearchFilters())->setPage(2);
+
+        $filters->applyTo($qbMock);
+    }
+
     public function testSettersAndGetters(): void
     {
         $filters = (new RecipeSearchFilters())
