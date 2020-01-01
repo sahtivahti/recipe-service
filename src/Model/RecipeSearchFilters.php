@@ -11,6 +11,8 @@ class RecipeSearchFilters
 
     private ?string $userId = null;
 
+    private ?int $page = null;
+
     /**
      * @return string|null
      */
@@ -67,6 +69,26 @@ class RecipeSearchFilters
     public function setUserId(?string $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPage(): ?int
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param int|null $page
+     *
+     * @return self
+     */
+    public function setPage(?int $page): self
+    {
+        $this->page = $page;
 
         return $this;
     }

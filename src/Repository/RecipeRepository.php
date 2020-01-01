@@ -36,7 +36,8 @@ class RecipeRepository extends ServiceEntityRepository
 
         $builder
             ->select('r')
-            ->from(Recipe::class, 'r');
+            ->from(Recipe::class, 'r')
+            ->setMaxResults(20);
 
         if ($filters->getUserId() !== null) {
             $builder->andWhere('r.userId = :userId')->setParameter('userId', $filters->getUserId());
@@ -48,6 +49,10 @@ class RecipeRepository extends ServiceEntityRepository
 
         if ($filters->getAuthor() !== null) {
             $builder->andWhere('r.author = :author')->setParameter('author', $filters->getAuthor());
+        }
+
+        if ($filters->getPage() !== null) {
+            $builder->setFirstResult(($filters->getPage() - 1) * 20);
         }
 
         $iterator = (new Paginator($builder, true))->getIterator();
