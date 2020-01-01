@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace App\Service;
 
 use App\Entity\Recipe;
+use App\Model\RecipeSearchFilters;
 use App\Repository\RecipeRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class RecipeService
 {
@@ -39,11 +41,13 @@ class RecipeService
     }
 
     /**
+     * @param RecipeSearchFilters $filters
      * @return Recipe[]
+     * @throws Exception
      */
-    public function getAllRecipes(): array
+    public function getAllRecipes(RecipeSearchFilters $filters): array
     {
-        return $this->recipeRepository->findAll();
+        return $this->recipeRepository->search($filters);
     }
 
     public function getById(int $id): ?Recipe

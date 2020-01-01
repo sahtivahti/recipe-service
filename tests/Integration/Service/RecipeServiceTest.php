@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Tests\Integration\Service;
 
 use App\Entity\Recipe;
+use App\Model\RecipeSearchFilters;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
 use DateTime;
@@ -69,16 +70,6 @@ class RecipeServiceTest extends TestCase
             ->method('flush');
 
         $this->recipeService->deleteRecipe($recipe);
-    }
-
-    public function testThatGetAllRecipesCallsRepository(): void
-    {
-        $this->recipeRepositoryMock
-            ->expects(static::once())
-            ->method('findAll')
-            ->willReturn([]);
-
-        $this->recipeService->getAllRecipes();
     }
 
     public function testThatUpdateChangesUpdatedAtTimestamp(): void

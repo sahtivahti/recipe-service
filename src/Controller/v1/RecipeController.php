@@ -5,6 +5,7 @@ namespace App\Controller\v1;
 
 use App\Entity\Recipe;
 use App\Helpers\Traits\ValidationErrorsTrait;
+use App\Model\RecipeSearchFilters;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,11 +55,14 @@ class RecipeController extends AbstractController
     /**
      * @Route(path="", methods={"GET"})
      *
+     * @param RecipeSearchFilters $filtersFromBody
+     *
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function listRecipes(): JsonResponse
+    public function listRecipes(RecipeSearchFilters $filtersFromBody): JsonResponse
     {
-        $recipes = $this->recipeService->getAllRecipes();
+        $recipes = $this->recipeService->getAllRecipes($filtersFromBody);
 
         return $this->json($recipes);
     }

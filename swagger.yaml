@@ -22,12 +22,18 @@ paths:
                 example: 'OK'
   /v1/recipe:
     get:
-      summary: List all recipes
+      summary: Search recipes
       tags:
         - Recipe
+      requestBody:
+        description: Recipe search filters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeSearchFilters'
       responses:
         200:
-          description: List of recipes
+          description: Filtered recipe result
           content:
             application/json:
               schema:
@@ -111,9 +117,11 @@ components:
           type: integer
         name:
           type: string
+          required: true
         author:
           type: string
           format: email
+          required: true
         userId:
           type: string
         createdAt:
@@ -122,3 +130,14 @@ components:
         updatedAt:
           type: string
           format: date-time
+    RecipeSearchFilters:
+      properties:
+        name:
+          type: string
+        author:
+          type: string
+          format: email
+        userId:
+          type: string
+        page:
+          type: integer
