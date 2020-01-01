@@ -69,17 +69,3 @@ jobs:
         uses: docker://mickaelandrieu/phpqa-ga
         with:
           args: --report --ignoredDirs vendor,Migrations --analyzedDirs src/ --output=cli --tools phpcs:0
-
-  publish:
-    name: Publish
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: sahtivahti/recipe-service
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tag_names: true
