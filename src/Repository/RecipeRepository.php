@@ -39,21 +39,7 @@ class RecipeRepository extends ServiceEntityRepository
             ->from(Recipe::class, 'r')
             ->setMaxResults(20);
 
-        if ($filters->getUserId() !== null) {
-            $builder->andWhere('r.userId = :userId')->setParameter('userId', $filters->getUserId());
-        }
-
-        if ($filters->getName() !== null) {
-          $builder->andWhere('r.name like :name')->setParameter('name', '%' . $filters->getName() . '%');
-        }
-
-        if ($filters->getAuthor() !== null) {
-            $builder->andWhere('r.author = :author')->setParameter('author', $filters->getAuthor());
-        }
-
-        if ($filters->getPage() !== null) {
-            $builder->setFirstResult(($filters->getPage() - 1) * 20);
-        }
+        $filters->applyTo($builder);
 
         $iterator = (new Paginator($builder, true))->getIterator();
 

@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Model;
 
+use Doctrine\ORM\QueryBuilder;
+
 class RecipeSearchFilters
 {
     private ?string $name = null;
@@ -91,5 +93,26 @@ class RecipeSearchFilters
         $this->page = $page;
 
         return $this;
+    }
+
+    public function applyTo(QueryBuilder $builder): QueryBuilder
+    {
+        if ($this->getUserId() !== null) {
+            $builder->andWhere('r.userId = :userId')->setParameter('userId', $this->getUserId());
+        }
+
+        if ($this->getName() !== null) {
+            $builder->andWhere('r.name like :name')->setParameter('name', '%' . $this->getName() . '%');
+        }
+
+        if ($this->getAuthor() !== null) {
+            $builder->andWhere('r.author = :author')->setParameter('author', $this->getAuthor());
+        }
+
+        if ($this->getPage() !== null) {
+            $builder->setFirstResult(($this->getPage() - 1) * 20);
+        }
+
+        return $builder;
     }
 }
