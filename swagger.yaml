@@ -117,9 +117,11 @@ components:
           type: integer
         name:
           type: string
+          required: true
         author:
           type: string
           format: email
+          required: true
         userId:
           type: string
         createdAt:
@@ -137,3 +139,5 @@ components:
           format: email
         userId:
           type: string
+        page:
+          type: integer
