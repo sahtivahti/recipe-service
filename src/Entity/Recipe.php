@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,10 +65,16 @@ class Recipe
      */
     private float $batchSize = 0.00;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Hop", mappedBy="recipe", orphanRemoval=true)
+     */
+    private $hops;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
+        $this->hops = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +155,37 @@ class Recipe
     public function setBatchSize(float $batchSize): self
     {
         $this->batchSize = $batchSize;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Hop[]
+     */
+    public function getHops(): Collection
+    {
+        return $this->hops;
+    }
+
+    public function addHop(Hop $hop): self
+    {
+        if (!$this->hops->contains($hop)) {
+            $this->hops[] = $hop;
+            $hop->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHop(Hop $hop): self
+    {
+        if ($this->hops->contains($hop)) {
+            $this->hops->removeElement($hop);
+            // set the owning side to null (unless already changed)
+            if ($hop->getRecipe() === $this) {
+                $hop->setRecipe(null);
+            }
+        }
 
         return $this;
     }
