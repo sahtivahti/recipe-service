@@ -40,7 +40,7 @@ class RecipeController extends AbstractController
      */
     public function createRecipe(Recipe $fromBody): JsonResponse
     {
-        $errors = $this->validator->validate($fromBody);
+        $errors = $this->validator->validate($fromBody, null, ['Create', 'Default']);
 
         if (count($errors) > 0) {
             return $this->createValidationErrorResponse($errors);
@@ -105,8 +105,7 @@ class RecipeController extends AbstractController
 
         $oldRecipe
             ->setAuthor($fromBody->getAuthor())
-            ->setName($fromBody->getName())
-            ->setUserId($fromBody->getUserId());
+            ->setName($fromBody->getName());
 
         $this->recipeService->addOrUpdate($oldRecipe);
 

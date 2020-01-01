@@ -65,7 +65,6 @@ class RecipeControllerTest extends WebTestCase
         $body = [
             'name' => 'My updated beer recipe',
             'author' => 'owner-changed@sahtivahti.fi',
-            'userId' => 'auth0|foobar'
         ];
 
         $client->request('PUT', '/v1/recipe/' . $recipeId, $body);

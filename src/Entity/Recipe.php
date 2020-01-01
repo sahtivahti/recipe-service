@@ -36,7 +36,7 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Create"})
      */
     private string $userId = '';
 
