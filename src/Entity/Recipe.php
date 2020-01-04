@@ -66,9 +66,9 @@ class Recipe
     private float $batchSize = 0.00;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Hop", mappedBy="recipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Hop", mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
      */
-    private ArrayCollection $hops;
+    private Collection $hops;
 
     public function __construct()
     {
