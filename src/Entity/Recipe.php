@@ -59,7 +59,7 @@ class Recipe
     private string $style = '';
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @ORM\Column(type="float", precision=10, scale=2)
      *
      * @Assert\GreaterThanOrEqual(0.00)
      */
@@ -68,7 +68,7 @@ class Recipe
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Hop", mappedBy="recipe", orphanRemoval=true)
      */
-    private $hops;
+    private ArrayCollection $hops;
 
     public function __construct()
     {

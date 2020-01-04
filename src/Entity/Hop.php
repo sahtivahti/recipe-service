@@ -25,7 +25,7 @@ class Hop
     private string $name = '';
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @ORM\Column(type="float", precision=10, scale=2)
      *
      * @Assert\GreaterThan(0.00)
      */
