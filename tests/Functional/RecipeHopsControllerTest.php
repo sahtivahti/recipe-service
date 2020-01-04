@@ -133,4 +133,22 @@ class RecipeHopsControllerTest extends WebTestCase
 
         static::assertSame(404, $response->getStatusCode());
     }
+
+    /**
+     * @depends testCreateBaseRecipe
+     *
+     * @param int $recipeId
+     */
+    public function testThatAddHopWithInvalidBodyReturns400(int $recipeId): void
+    {
+        $client = static::createClient();
+
+        $body = ['name' => 'Galaxy'];
+
+        $client->request('POST', '/v1/recipe/' . $recipeId . '/hop', $body);
+
+        $response = $client->getResponse();
+
+        static::assertSame(400, $response->getStatusCode());
+    }
 }
