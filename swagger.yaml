@@ -39,7 +39,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Recipe'
+                  $ref: '#/components/schemas/RecipeListItem'
     post:
       summary: Create recipe
       tags:
@@ -48,14 +48,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Recipe'
+              $ref: '#/components/schemas/RecipeDetails'
       responses:
         201:
           description: The created recipe
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetails'
   /v1/recipe/{id}:
     get:
       summary: Get recipe by id
@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetails'
     put:
       summary: Update recipe by id
       tags:
@@ -90,7 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetails'
     delete:
       summary: Delete recipe by id
       tags:
@@ -107,11 +107,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetails'
 
 components:
   schemas:
-    Recipe:
+    RecipeDetails:
       properties:
         id:
           type: integer
@@ -129,6 +129,20 @@ components:
         batchSize:
           type: number
           minimum: 0.00
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    RecipeListItem:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        style:
+          type: string
         createdAt:
           type: string
           format: date-time
