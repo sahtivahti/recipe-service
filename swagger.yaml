@@ -30,7 +30,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RecipeSearchFilters'
+              $ref: '#/components/schemas/RecipeSearchFiltersRequest'
       responses:
         200:
           description: Filtered recipe result
@@ -39,7 +39,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Recipe'
+                  $ref: '#/components/schemas/RecipeListItemResponse'
     post:
       summary: Create recipe
       tags:
@@ -48,14 +48,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Recipe'
+              $ref: '#/components/schemas/CreateRecipeRequest'
       responses:
         201:
           description: The created recipe
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetailsResponse'
   /v1/recipe/{id}:
     get:
       summary: Get recipe by id
@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetailsResponse'
     put:
       summary: Update recipe by id
       tags:
@@ -90,7 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetailsResponse'
     delete:
       summary: Delete recipe by id
       tags:
@@ -107,11 +107,75 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/RecipeDetailsResponse'
+
+  /v1/recipe/{recipeId}/hop:
+    post:
+      summary: Add hop to recipe
+      tags:
+        - Hop
+      parameters:
+        - in: path
+          name: recipeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHopRequest'
+      responses:
+        201:
+          description: Created hop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HopDetailsResponse'
+        404:
+          description: Recipe not found
+        400:
+          description: Invalid hop content
+  /v1/recipe/{recipeId}/hop/{hopId}:
+    delete:
+      summary: Remove hop from recipe
+      tags:
+        - Hop
+      parameters:
+        - in: path
+          name: recipeId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Hop removed from recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HopDetailsResponse'
+        404:
+          description: Recipe or hop not found
 
 components:
   schemas:
-    Recipe:
+    CreateRecipeRequest:
+      properties:
+        name:
+          type: string
+          required: true
+        author:
+          type: string
+          format: email
+          required: true
+        userId:
+          type: string
+        style:
+          type: string
+        batchSize:
+          type: number
+          minimum: 0.00
+    RecipeDetailsResponse:
       properties:
         id:
           type: integer
@@ -124,13 +188,36 @@ components:
           required: true
         userId:
           type: string
+        style:
+          type: string
+        batchSize:
+          type: number
+          minimum: 0.00
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-    RecipeSearchFilters:
+        hops:
+          type: array
+          items:
+            $ref: '#/components/schemas/HopDetailsResponse'
+    RecipeListItemResponse:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        style:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    RecipeSearchFiltersRequest:
       properties:
         name:
           type: string
@@ -141,3 +228,17 @@ components:
           type: string
         page:
           type: integer
+    CreateHopRequest:
+      properties:
+        name:
+          type: string
+        quantity:
+          type: number
+    HopDetailsResponse:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: number

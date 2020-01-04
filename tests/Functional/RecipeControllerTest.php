@@ -16,7 +16,9 @@ class RecipeControllerTest extends WebTestCase
         $body = [
             'name' => 'My another beer recipe',
             'author' => 'panomestari@sahtivahti.fi',
-            'userId' => 'auth0|foobar'
+            'userId' => 'auth0|foobar',
+            'style' => 'IPA',
+            'batchSize' => 15.6
         ];
 
         $client->request('POST', '/v1/recipe', $body);
@@ -28,6 +30,8 @@ class RecipeControllerTest extends WebTestCase
         static::assertSame('My another beer recipe', $data['name']);
         static::assertSame('panomestari@sahtivahti.fi', $data['author']);
         static::assertSame('auth0|foobar', $data['userId']);
+        static::assertSame('IPA', $data['style']);
+        static::assertSame(15.6, $data['batchSize']);
 
         return $data['id'];
     }
@@ -65,6 +69,8 @@ class RecipeControllerTest extends WebTestCase
         $body = [
             'name' => 'My updated beer recipe',
             'author' => 'owner-changed@sahtivahti.fi',
+            'style' => 'Traditional beer',
+            'batchSize' => 5.6
         ];
 
         $client->request('PUT', '/v1/recipe/' . $recipeId, $body);
@@ -76,6 +82,8 @@ class RecipeControllerTest extends WebTestCase
         static::assertSame('My updated beer recipe', $data['name']);
         static::assertSame('owner-changed@sahtivahti.fi', $data['author']);
         static::assertSame('auth0|foobar', $data['userId']);
+        static::assertSame('Traditional beer', $data['style']);
+        static::assertSame(5.6, $data['batchSize']);
     }
 
     /**

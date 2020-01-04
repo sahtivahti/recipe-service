@@ -49,7 +49,7 @@ class RecipeController extends AbstractController
 
         $recipe = $this->recipeService->addOrUpdate($fromBody);
 
-        return $this->json($recipe, Response::HTTP_CREATED);
+        return $this->json($recipe, Response::HTTP_CREATED, [], ['groups' => ['Details']]);
     }
 
     /**
@@ -64,7 +64,7 @@ class RecipeController extends AbstractController
     {
         $recipes = $this->recipeService->getAllRecipes($filtersFromBody);
 
-        return $this->json($recipes);
+        return $this->json($recipes, Response::HTTP_OK, [], ['groups' => ['Listing']]);
     }
 
     /**
@@ -82,7 +82,7 @@ class RecipeController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        return $this->json($recipe);
+        return $this->json($recipe, Response::HTTP_OK, [], ['groups' => ['Details']]);
     }
 
     /**
@@ -109,11 +109,13 @@ class RecipeController extends AbstractController
 
         $oldRecipe
             ->setAuthor($fromBody->getAuthor())
-            ->setName($fromBody->getName());
+            ->setName($fromBody->getName())
+            ->setStyle($fromBody->getStyle())
+            ->setBatchSize($fromBody->getBatchSize());
 
         $this->recipeService->addOrUpdate($oldRecipe);
 
-        return $this->json($oldRecipe);
+        return $this->json($oldRecipe, Response::HTTP_OK, [], ['groups' => ['Details']]);
     }
 
     /**
@@ -133,6 +135,6 @@ class RecipeController extends AbstractController
 
         $this->recipeService->deleteRecipe($recipe);
 
-        return $this->json($recipe);
+        return $this->json($recipe, Response::HTTP_OK, [], ['groups' => ['Details']]);
     }
 }
