@@ -109,7 +109,9 @@ class RecipeController extends AbstractController
 
         $oldRecipe
             ->setAuthor($fromBody->getAuthor())
-            ->setName($fromBody->getName());
+            ->setName($fromBody->getName())
+            ->setStyle($fromBody->getStyle())
+            ->setBatchSize($fromBody->getBatchSize());
 
         $this->recipeService->addOrUpdate($oldRecipe);
 
