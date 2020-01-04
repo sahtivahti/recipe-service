@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,6 +19,8 @@ class Recipe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"Listing", "Details"})
      */
     private ?int $id = null;
 
@@ -25,6 +28,8 @@ class Recipe
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank()
+     *
+     * @Groups({"Listing", "Details"})
      */
     private string $name = '';
 
@@ -33,6 +38,8 @@ class Recipe
      *
      * @Assert\NotBlank()
      * @Assert\Email()
+     *
+     * @Groups({"Details"})
      */
     private string $author = '';
 
@@ -40,21 +47,29 @@ class Recipe
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank(groups={"Create"})
+     *
+     * @Groups({"Details"})
      */
     private string $userId = '';
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"Listing", "Details"})
      */
     private DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"Listing", "Details"})
      */
     private DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"Listing", "Details"})
      */
     private string $style = '';
 
@@ -62,11 +77,15 @@ class Recipe
      * @ORM\Column(type="float", precision=10, scale=2)
      *
      * @Assert\GreaterThanOrEqual(0.00)
+     *
+     * @Groups({"Details"})
      */
     private float $batchSize = 0.00;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Hop", mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
+     *
+     * @Groups({"Details"})
      */
     private Collection $hops;
 

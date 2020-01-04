@@ -4,22 +4,26 @@ declare(strict_types = 1);
 namespace App\Controller\v1;
 
 use App\Entity\Hop;
+use App\Helpers\Traits\ValidationErrorsTrait;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RecipeHopsController extends AbstractController
 {
-    /**
-     * @var RecipeService
-     */
+    use ValidationErrorsTrait;
+
     private RecipeService $recipeService;
 
-    public function __construct(RecipeService $recipeService)
+    private ValidatorInterface $validator;
+
+    public function __construct(RecipeService $recipeService, ValidatorInterface $validator)
     {
         $this->recipeService = $recipeService;
+        $this->validator = $validator;
     }
 
     /**
@@ -32,6 +36,12 @@ class RecipeHopsController extends AbstractController
      */
     public function addHopToRecipeAction(Hop $fromBody, int $recipeId): JsonResponse
     {
+        $errors = $this->validator->validate($fromBody);
+
+        if (count($errors) > 0) {
+            return $this->createValidationErrorResponse($errors);
+        }
+
         $recipe = $this->recipeService->getById($recipeId);
 
         if ($recipe === null) {
@@ -42,7 +52,7 @@ class RecipeHopsController extends AbstractController
 
         $this->recipeService->addOrUpdate($recipe);
 
-        return $this->json($fromBody, Response::HTTP_CREATED);
+        return $this->json($fromBody, Response::HTTP_CREATED, [], ['groups' => ['Details']]);
     }
 
     /**
@@ -61,12 +71,19 @@ class RecipeHopsController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $hop = null;
+        $hop = array_filter(
+            $recipe->getHops()->toArray(),
+            fn(Hop $hop) => $hop->getId() === $hopId
+        )[0] ?? null;
 
-        $recipe->getHops()->map(fn(Hop $x) => $x->getId() === $hopId && $recipe->removeHop($x));
+        if ($hop === null) {
+            throw $this->createNotFoundException();
+        }
+
+        $recipe->removeHop($hop);
 
         $this->recipeService->addOrUpdate($recipe);
 
-        return $this->json([]);
+        return $this->json($hop, Response::HTTP_OK, [], ['groups' => ['Details']]);
     }
 }

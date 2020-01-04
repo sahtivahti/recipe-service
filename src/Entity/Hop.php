@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +15,8 @@ class Hop
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"Listing", "Details"})
      */
     private ?int $id = null;
 
@@ -21,15 +24,20 @@ class Hop
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank()
+     *
+     * @Groups({"Listing", "Details"})
      */
     private string $name = '';
 
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
      *
+     * @Assert\NotNull()
      * @Assert\GreaterThan(0.00)
+     *
+     * @Groups({"Listing", "Details"})
      */
-    private float $quantity;
+    private float $quantity = 0.00;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Recipe", inversedBy="hops")
