@@ -5,6 +5,7 @@ namespace App\Controller\v1;
 
 use App\Entity\Hop;
 use App\Helpers\Traits\ValidationErrorsTrait;
+use App\Service\HopService;
 use App\Service\RecipeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,10 +21,16 @@ class RecipeHopsController extends AbstractController
 
     private ValidatorInterface $validator;
 
-    public function __construct(RecipeService $recipeService, ValidatorInterface $validator)
-    {
+    private HopService $hopService;
+
+    public function __construct(
+        RecipeService $recipeService,
+        ValidatorInterface $validator,
+        HopService $hopService
+    ) {
         $this->recipeService = $recipeService;
         $this->validator = $validator;
+        $this->hopService = $hopService;
     }
 
     /**
@@ -71,10 +78,7 @@ class RecipeHopsController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $hop = array_filter(
-            $recipe->getHops()->toArray(),
-            fn(Hop $hop) => $hop->getId() === $hopId
-        )[0] ?? null;
+        $hop = $this->hopService->getById($hopId);
 
         if ($hop === null) {
             throw $this->createNotFoundException();
