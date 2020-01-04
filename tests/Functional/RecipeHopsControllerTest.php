@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Tests;
 
-use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RecipeHopsControllerTest extends WebTestCase
@@ -90,5 +89,48 @@ class RecipeHopsControllerTest extends WebTestCase
 
         $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         static::assertCount(0, $data['hops']);
+    }
+
+    public function testThatAddHopReturns404IfRecipeNotFound(): void
+    {
+        $client = static::createClient();
+
+        $body = [
+            'name' => 'Galaxy',
+            'quantity' => 20.00
+        ];
+
+        $client->request('POST', '/v1/recipe/99999/hop', $body);
+
+        $response = $client->getResponse();
+
+        static::assertSame(404, $response->getStatusCode());
+    }
+
+    public function testThatRemoveHopReturns404IfRecipeNotFound(): void
+    {
+        $client = static::createClient();
+
+        $client->request('DELETE', '/v1/recipe/99999/hop/60');
+
+        $response = $client->getResponse();
+
+        static::assertSame(404, $response->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateBaseRecipe
+     *
+     * @param int $recipeId
+     */
+    public function testThatRemoveHopReturns404IfHopIsNotFound(int $recipeId): void
+    {
+        $client = static::createClient();
+
+        $client->request('DELETE', '/v1/recipe/' . $recipeId . '/hop/60');
+
+        $response = $client->getResponse();
+
+        static::assertSame(404, $response->getStatusCode());
     }
 }
