@@ -90,7 +90,7 @@ class Recipe
     private Collection $hops;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Fermentable", mappedBy="recipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Fermentable", mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
      *
      * @Groups({"Details"})
      */

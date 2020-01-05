@@ -99,7 +99,7 @@ class Fermentable
         return $this->recipe;
     }
 
-    public function setRecipe(Recipe $recipe): self
+    public function setRecipe(?Recipe $recipe): self
     {
         $this->recipe = $recipe;
 
