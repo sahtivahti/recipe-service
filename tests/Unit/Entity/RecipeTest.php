@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Tests\Unit\Entity;
 
+use App\Entity\Fermentable;
 use App\Entity\Hop;
 use App\Entity\Recipe;
 use DateTime;
@@ -41,5 +42,29 @@ class RecipeTest extends TestCase
 
         static::assertSame($hop, $recipe->getHops()->get(1));
         static::assertCount(1, $recipe->getHops());
+    }
+
+    public function testThatAddFermentableAppendsNewFermentableToRecipe(): void
+    {
+        $recipe = new Recipe();
+        $fermentable = new Fermentable();
+
+        $recipe->addFermentable($fermentable);
+
+        static::assertSame($fermentable, $recipe->getFermentables()->get(0));
+    }
+
+    public function testThatRemoveFermentableRemovesFermentableFromRecipe(): void
+    {
+        $recipe = new Recipe();
+        $fermentable = new Fermentable();
+
+        $recipe->addFermentable(new Fermentable());
+        $recipe->addFermentable($fermentable);
+
+        $recipe->removeFermentable($recipe->getFermentables()->get(0));
+
+        static::assertSame($fermentable, $recipe->getFermentables()->get(1));
+        static::assertCount(1, $recipe->getFermentables());
     }
 }
