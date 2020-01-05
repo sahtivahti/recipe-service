@@ -147,6 +147,11 @@ paths:
           required: true
           schema:
             type: integer
+        - in: path
+          name: hopId
+          required: true
+          schema:
+            type: integer
       responses:
         200:
           description: Hop removed from recipe
@@ -156,6 +161,58 @@ paths:
                 $ref: '#/components/schemas/HopDetailsResponse'
         404:
           description: Recipe or hop not found
+  /v1/recipe/{recipeId}/fermentable:
+    post:
+      summary: Add fermentable to recipe
+      tags:
+        - Fermentables
+      parameters:
+        - in: path
+          name: recipeId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFermentableRequest'
+      responses:
+        201:
+          description: Created fermentable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FermentableDetailsResponse'
+        404:
+          description: Recipe not found
+        400:
+          description: Invalid fermentable content
+  /v1/recipe/{recipeId}/fermentable/{fermentableId}:
+    delete:
+      summary: Remove fermentable from recipe
+      tags:
+        - Fermentables
+      parameters:
+        - in: path
+          name: recipeId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: fermentableId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Fermentable removed from recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FermentableDetailsResponse'
+        404:
+          description: Recipe or fermentable not found
 
 components:
   schemas:
@@ -242,3 +299,26 @@ components:
           type: string
         quantity:
           type: number
+    CreateFermentableRequest:
+      properties:
+        name:
+          type: string
+          required: true
+        quantity:
+          type: number
+          required: true
+        color:
+          type: number
+          required: true
+          description: Fermentable color (EBC)
+    FermentableDetailsResponse:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        quantity:
+          type: number
+        color:
+          type: number
+          description: Fermentable color (EBC)
