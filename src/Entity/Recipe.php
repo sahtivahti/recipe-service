@@ -89,11 +89,19 @@ class Recipe
      */
     private Collection $hops;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fermentable", mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
+     *
+     * @Groups({"Details"})
+     */
+    private Collection $fermentables;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
         $this->hops = new ArrayCollection();
+        $this->fermentables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +211,37 @@ class Recipe
             // set the owning side to null (unless already changed)
             if ($hop->getRecipe() === $this) {
                 $hop->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fermentable[]
+     */
+    public function getFermentables(): Collection
+    {
+        return $this->fermentables;
+    }
+
+    public function addFermentable(Fermentable $fermentable): self
+    {
+        if (!$this->fermentables->contains($fermentable)) {
+            $this->fermentables[] = $fermentable;
+            $fermentable->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFermentable(Fermentable $fermentable): self
+    {
+        if ($this->fermentables->contains($fermentable)) {
+            $this->fermentables->removeElement($fermentable);
+            // set the owning side to null (unless already changed)
+            if ($fermentable->getRecipe() === $this) {
+                $fermentable->setRecipe(null);
             }
         }
 
