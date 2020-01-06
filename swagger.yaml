@@ -289,8 +289,13 @@ components:
       properties:
         name:
           type: string
+          required: true
         quantity:
           type: number
+          required: true
+        time:
+          type: integer
+          required: true
     HopDetailsResponse:
       properties:
         id:
@@ -299,6 +304,8 @@ components:
           type: string
         quantity:
           type: number
+        time:
+          type: integer
     CreateFermentableRequest:
       properties:
         name:
