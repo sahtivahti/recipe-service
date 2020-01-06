@@ -84,6 +84,7 @@ class Recipe
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Hop", mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OrderBy({"time" = "DESC"})
      *
      * @Groups({"Details"})
      */
