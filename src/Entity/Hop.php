@@ -39,17 +39,19 @@ class Hop
     private float $quantity = 0.00;
 
     /**
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\GreaterThanOrEqual(0)
+     *
+     * @Groups({"Listing", "Details"})
+     */
+    private int $time = 0;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Recipe", inversedBy="hops")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Recipe $recipe = null;
-
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\GreaterThanOrEqual(0)
-     */
-    private int $time = 0;
 
     public function getId(): ?int
     {
@@ -80,18 +82,6 @@ class Hop
         return $this;
     }
 
-    public function getRecipe(): ?Recipe
-    {
-        return $this->recipe;
-    }
-
-    public function setRecipe(?Recipe $recipe): self
-    {
-        $this->recipe = $recipe;
-
-        return $this;
-    }
-
     public function getTime(): int
     {
         return $this->time;
@@ -100,6 +90,18 @@ class Hop
     public function setTime(int $time): self
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function getRecipe(): ?Recipe
+    {
+        return $this->recipe;
+    }
+
+    public function setRecipe(?Recipe $recipe): self
+    {
+        $this->recipe = $recipe;
 
         return $this;
     }
