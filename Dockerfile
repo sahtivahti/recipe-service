@@ -19,9 +19,4 @@ RUN composer run auto-scripts
 
 RUN chmod +x /app/bin/console /app/bin/phpunit
 
-RUN php bin/console cache:warmup \
-    && php bin/console assets:install \
-    && php bin/console cache:clear \
-    && chmod -R 777 var/cache
-
 ENTRYPOINT ["./docker-entrypoint.sh"]
