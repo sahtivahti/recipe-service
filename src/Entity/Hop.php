@@ -32,7 +32,6 @@ class Hop
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
      *
-     * @Assert\NotNull()
      * @Assert\GreaterThan(0.00)
      *
      * @Groups({"Listing", "Details"})
@@ -44,6 +43,13 @@ class Hop
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Recipe $recipe = null;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\GreaterThanOrEqual(0)
+     */
+    private int $time = 0;
 
     public function getId(): ?int
     {
@@ -82,6 +88,18 @@ class Hop
     public function setRecipe(?Recipe $recipe): self
     {
         $this->recipe = $recipe;
+
+        return $this;
+    }
+
+    public function getTime(): int
+    {
+        return $this->time;
+    }
+
+    public function setTime(int $time): self
+    {
+        $this->time = $time;
 
         return $this;
     }
