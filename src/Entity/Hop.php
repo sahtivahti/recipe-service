@@ -32,12 +32,20 @@ class Hop
     /**
      * @ORM\Column(type="float", precision=10, scale=2)
      *
-     * @Assert\NotNull()
      * @Assert\GreaterThan(0.00)
      *
      * @Groups({"Listing", "Details"})
      */
     private float $quantity = 0.00;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\GreaterThanOrEqual(0)
+     *
+     * @Groups({"Listing", "Details"})
+     */
+    private int $time = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Recipe", inversedBy="hops")
@@ -70,6 +78,18 @@ class Hop
     public function setQuantity(float $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getTime(): int
+    {
+        return $this->time;
+    }
+
+    public function setTime(int $time): self
+    {
+        $this->time = $time;
 
         return $this;
     }

@@ -40,7 +40,8 @@ class RecipeHopsControllerTest extends WebTestCase
 
         $body = [
             'name' => 'Galaxy',
-            'quantity' => 20.00
+            'quantity' => 20.00,
+            'time' => 25
         ];
 
         $client->request('POST', '/v1/recipe/' . $recipeId . '/hop', $body);
@@ -53,6 +54,7 @@ class RecipeHopsControllerTest extends WebTestCase
         static::assertGreaterThan(0, $hopId);
         static::assertSame('Galaxy', $data['name']);
         static::assertSame(20, $data['quantity']);
+        static::assertSame(25, $data['time']);
 
         $client->request('GET', '/v1/recipe/' . $recipeId);
 
