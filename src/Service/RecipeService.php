@@ -42,7 +42,9 @@ class RecipeService
 
     /**
      * @param RecipeSearchFilters $filters
+     *
      * @return Recipe[]
+     *
      * @throws Exception
      */
     public function getAllRecipes(RecipeSearchFilters $filters): array

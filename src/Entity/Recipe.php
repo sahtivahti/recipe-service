@@ -248,4 +248,9 @@ class Recipe
 
         return $this;
     }
+
+    public function isNew(): bool
+    {
+        return $this->id === null;
+    }
 }
