@@ -16,17 +16,11 @@ class RecipeCreatedEvent
         $this->createdAt = new DateTime();
     }
 
-    /**
-     * @return Recipe
-     */
     public function getRecipe(): Recipe
     {
         return $this->recipe;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
