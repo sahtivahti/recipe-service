@@ -105,6 +105,24 @@ class RecipeControllerTest extends WebTestCase
     }
 
     /**
+     * @depends  testThatNewRecipeCanBeCreated
+     *
+     * @param int $recipeId
+     */
+    public function testThatSearchingWithUserIdInQueryParametersFiltersResults(int $recipeId): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/v1/recipe?userId=userWithNoRecipes');
+        $response = $client->getResponse();
+
+        $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+        static::assertCount(0, $data);
+    }
+
+    /**
      * @depends testThatNewRecipeCanBeCreated
      *
      * @param int $recipeId

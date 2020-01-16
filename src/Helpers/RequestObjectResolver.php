@@ -26,6 +26,8 @@ class RequestObjectResolver implements ArgumentValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
-        yield $this->denormalizer->denormalize($request->request->all(), $argument->getType());
+        $params = array_merge($request->request->all(), $request->query->all());
+
+        yield $this->denormalizer->denormalize($params, $argument->getType());
     }
 }
