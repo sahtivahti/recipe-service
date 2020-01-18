@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: mysql://sahtivahti:sahtivahti@127.0.0.1:33066/recipe-service?serverVersion=8.0.18
+      MESSENGER_TRANSPORT_DSN: amqp://guest:guest@127.0.0.1:56722/%2f/
 
     services:
       mariadb:
@@ -20,6 +21,11 @@ jobs:
           MYSQL_USER: sahtivahti
           MYSQL_PASSWORD: sahtivahti
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+      rabbitmq:
+        image: rabbitmq:3.8.2-alpine
+        ports:
+          - 56722:5672
+        options: --health-cmd="nc -z localhost 56722"
 
     steps:
       - name: Checkout
