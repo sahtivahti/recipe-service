@@ -1,0 +1,19 @@
+framework:
+    messenger:
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+            symfony_serializer:
+                format: json
+                context: { }
+
+        transports:
+            rabbitmq:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: sahtivahti.recipes.fanout
+                        type: fanout
+                    queues:
+                        blackhole:
+        routing:
+            '*': rabbitmq

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Tests\Integration\Service;
 
 use App\Entity\Recipe;
-use App\Model\RecipeSearchFilters;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
 use DateTime;
