@@ -16,7 +16,7 @@ class RecipeDeletedEventTest extends TestCase
         $event = new RecipeDeletedEvent($recipe);
 
         static::assertSame($recipe, $event->getItem());
-        static::assertSame($now->getTimestamp(), $recipe->getCreatedAt()->getTimestamp());
+        static::assertSame($now->getTimestamp(), $event->getCreatedAt()->getTimestamp());
         static::assertSame('recipe.deleted', $event->getType());
     }
 }

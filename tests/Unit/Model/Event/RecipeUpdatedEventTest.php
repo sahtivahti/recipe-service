@@ -16,7 +16,7 @@ class RecipeUpdatedEventTest extends TestCase
         $event = new RecipeUpdatedEvent($recipe);
 
         static::assertSame($recipe, $event->getItem());
-        static::assertSame($now->getTimestamp(), $recipe->getCreatedAt()->getTimestamp());
+        static::assertSame($now->getTimestamp(), $event->getCreatedAt()->getTimestamp());
         static::assertSame('recipe.updated', $event->getType());
     }
 }
