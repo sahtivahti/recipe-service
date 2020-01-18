@@ -65,7 +65,7 @@ Example of `RecipeCreatedEvent`
 ```json
 {
     "type":"recipe.created",
-    "createdAt":"2020-01-18T08:38:20+00:00"
+    "createdAt":"2020-01-18T08:38:20+00:00",
     "item": {
         "id":1,
         "name":"My another beer recipe",
