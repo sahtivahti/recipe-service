@@ -6,19 +6,24 @@ use DateTime;
 
 class RecipeCreatedEvent
 {
-    private Recipe $recipe;
+    private Recipe $item;
 
     private DateTime $createdAt;
 
     public function __construct(Recipe $recipe)
     {
-        $this->recipe = $recipe;
+        $this->item = $recipe;
         $this->createdAt = new DateTime();
     }
 
-    public function getRecipe(): Recipe
+    public function getType(): string
     {
-        return $this->recipe;
+        return 'recipe.created';
+    }
+
+    public function getItem(): Recipe
+    {
+        return $this->item;
     }
 
     public function getCreatedAt(): DateTime

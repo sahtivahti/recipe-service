@@ -2,7 +2,16 @@ FROM php:7.4.1-fpm-alpine3.10
 
 WORKDIR /app
 
-RUN apk update && docker-php-ext-install pdo_mysql
+RUN apk add --update \
+    make \
+    gcc \
+    g++ \
+    autoconf \
+    rabbitmq-c \
+    rabbitmq-c-dev \
+  && pecl install amqp \
+  && docker-php-ext-install pdo_mysql \
+  && docker-php-ext-enable amqp
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \

@@ -24,3 +24,8 @@ services:
       MYSQL_DATABASE: recipe-service
       MYSQL_USER: sahtivahti
       MYSQL_PASSWORD: sahtivahti
+  rabbitmq:
+    image: rabbitmq:3.8.2-management-alpine
+    ports:
+      - 15672:15672
+

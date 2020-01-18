@@ -7,7 +7,7 @@ use App\EventSubscriber\RecipeActivitySubscriber;
 use App\Model\Event\RecipeCreatedEvent;
 use App\Model\Event\RecipeDeletedEvent;
 use App\Model\Event\RecipeUpdatedEvent;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +33,7 @@ class RecipeActivitySubscriberTest extends TestCase
         $this->messageBusMock
             ->expects(static::once())
             ->method('dispatch')
-            ->with(self::isInstanceOf(RecipeCreatedEvent::class))
+            ->with(self::isInstanceOf(Envelope::class))
             ->willReturn(new Envelope($recipe));
 
         $subscriber = new RecipeActivitySubscriber($this->messageBusMock);
@@ -66,7 +66,7 @@ class RecipeActivitySubscriberTest extends TestCase
         $this->messageBusMock
             ->expects(static::once())
             ->method('dispatch')
-            ->with(self::isInstanceOf(RecipeUpdatedEvent::class))
+            ->with(self::isInstanceOf(Envelope::class))
             ->willReturn(new Envelope($recipe));
 
         $subscriber = new RecipeActivitySubscriber($this->messageBusMock);
@@ -99,7 +99,7 @@ class RecipeActivitySubscriberTest extends TestCase
         $this->messageBusMock
             ->expects(static::once())
             ->method('dispatch')
-            ->with(self::isInstanceOf(RecipeDeletedEvent::class))
+            ->with(self::isInstanceOf(Envelope::class))
             ->willReturn(new Envelope($recipe));
 
         $subscriber = new RecipeActivitySubscriber($this->messageBusMock);

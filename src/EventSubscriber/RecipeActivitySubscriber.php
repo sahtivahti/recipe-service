@@ -6,9 +6,11 @@ use App\Model\Event\RecipeCreatedEvent;
 use App\Model\Event\RecipeDeletedEvent;
 use App\Model\Event\RecipeUpdatedEvent;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\SerializerStamp;
 
 class RecipeActivitySubscriber implements EventSubscriber
 {
@@ -40,7 +42,12 @@ class RecipeActivitySubscriber implements EventSubscriber
             return;
         }
 
-        $this->messageBus->dispatch(new RecipeCreatedEvent($recipe));
+        $message = (new Envelope(new RecipeCreatedEvent($recipe)))
+            ->with(new SerializerStamp([
+                'groups' => 'Details'
+            ]));
+
+        $this->messageBus->dispatch($message);
     }
 
     public function postUpdate(LifecycleEventArgs $args): void
@@ -52,7 +59,12 @@ class RecipeActivitySubscriber implements EventSubscriber
             return;
         }
 
-        $this->messageBus->dispatch(new RecipeUpdatedEvent($recipe));
+        $message = (new Envelope(new RecipeUpdatedEvent($recipe)))
+            ->with(new SerializerStamp([
+                'groups' => 'Details'
+            ]));
+
+        $this->messageBus->dispatch($message);
     }
 
     public function postRemove(LifecycleEventArgs $args): void
@@ -64,6 +76,11 @@ class RecipeActivitySubscriber implements EventSubscriber
             return;
         }
 
-        $this->messageBus->dispatch(new RecipeDeletedEvent($recipe));
+        $message = (new Envelope(new RecipeDeletedEvent($recipe)))
+            ->with(new SerializerStamp([
+                'groups' => 'Details'
+            ]));
+
+        $this->messageBus->dispatch($message);
     }
 }
