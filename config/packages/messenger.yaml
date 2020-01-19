@@ -11,7 +11,7 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: sahtivahti.recipes.fanout
+                        name: sahtivahti.fanout
                         type: fanout
                     queues:
                         blackhole:
