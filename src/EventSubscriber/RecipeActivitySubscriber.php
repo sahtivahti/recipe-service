@@ -11,6 +11,7 @@ use Doctrine\ORM\Events;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\SerializerStamp;
+use Symfony\Component\Messenger\Transport\AmqpExt\AmqpStamp;
 
 class RecipeActivitySubscriber implements EventSubscriber
 {
@@ -43,9 +44,12 @@ class RecipeActivitySubscriber implements EventSubscriber
         }
 
         $message = (new Envelope(new RecipeCreatedEvent($recipe)))
-            ->with(new SerializerStamp([
-                'groups' => 'Details'
-            ]));
+            ->with(
+                new SerializerStamp([
+                    'groups' => 'Details'
+                ]),
+                new AmqpStamp('recipe.created')
+            );
 
         $this->messageBus->dispatch($message);
     }
@@ -60,9 +64,12 @@ class RecipeActivitySubscriber implements EventSubscriber
         }
 
         $message = (new Envelope(new RecipeUpdatedEvent($recipe)))
-            ->with(new SerializerStamp([
-                'groups' => 'Details'
-            ]));
+            ->with(
+                new SerializerStamp([
+                    'groups' => 'Details'
+                ]),
+                new AmqpStamp('recipe.updated')
+            );
 
         $this->messageBus->dispatch($message);
     }
@@ -77,9 +84,12 @@ class RecipeActivitySubscriber implements EventSubscriber
         }
 
         $message = (new Envelope(new RecipeDeletedEvent($recipe)))
-            ->with(new SerializerStamp([
-                'groups' => 'Details'
-            ]));
+            ->with(
+                new SerializerStamp([
+                    'groups' => 'Details'
+                ]),
+                new AmqpStamp('recipe.deleted')
+            );
 
         $this->messageBus->dispatch($message);
     }

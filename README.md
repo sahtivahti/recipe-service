@@ -50,7 +50,7 @@ Database schema migrations is run automatically when application instance starts
 
 ## Events
 
-Events are published to `RabbitMq` fanout exchange named `sahtivahti.recipes.fanout`. Any external application may catch events from there and process them as they want.
+Events are published to `RabbitMq` fanout exchange named `sahtivahti.fanout`. Any external application may catch events from there and process them as they want.
 
 ### Event structure
 
